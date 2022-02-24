@@ -35,20 +35,20 @@ var EnemyDeckPositions = [
 	Vector2(8, 18)
 ]
 
-var PlayerDeckSlots = [
-	true,
-	false,
-	false,
-	false,
-	false,
+onready var PlayerDeckSlots = [
+	$"2DSpace/PlayerDeck/Card",
+	null,
+	null,
+	null,
+	null,
 ]
 
-var EnemyDeckSlots = [
-	true,
-	false,
-	false,
-	false,
-	false,
+onready var EnemyDeckSlots = [
+	$"2DSpace/PlayerDeck/Card",
+	null,
+	null,
+	null,
+	null,
 ]
 
 var state = TALKING
@@ -80,37 +80,66 @@ func set_enemy_selected_card(strat: String = "first-to-last"):
 	
 	#this strategy will need the ai to always pick the first available card and select it
 	if strat == "first-to-last":
-		for i in enemy_deck.get_children():
-			if i != null:
-				enemy_selected_card = i
-				break
-			elif i == null:
-				print("slot empty, picking next slot")
+		if len(enemy_deck.get_children()) > 0:
+			enemy_selected_card = enemy_deck.get_children()[0]
+		else:
+			draw_card("enemy")
+			set_enemy_selected_card("first-to-last")
 
-func get_open_slot(deck):
+func get_open_slot(deck, return_type):
 	#checks for open slots in the appropriate deck
 	
 	#if the deck is not empty
 	if not deck.get_children().empty():
 		#then we will perform a for loop to check for open slots
 		for i in range(5):
-			#checks if the deck child is equal to null
-			if deck.get_child(i) == null:
-				#then we use this slot by the value of the specified deck position array
-				if deck == player_deck:
-					return PlayerDeckPositions[i]
-				elif deck == enemy_deck:
-					return EnemyDeckPositions[i]
-				#DO NOT FORGET TO break the for loop
-				break
-			elif deck.get_child(i) != null:
-				if i != 4:
-					#we print that the slot is full if we havent checked the last slot
-					print("slot full")
-				elif i == 4:
-					#we print that all the slots are full and return -100, -100 for now,
-					print("all slots full")
-					return Vector2(-100, -100)
+			if deck == player_deck:
+				#checks if the player deck slot is available
+				if PlayerDeckSlots[i] == null:
+					if return_type == "Vec2":
+						#then we return the i value of the player deck position array
+						return PlayerDeckPositions[i]
+					elif return_type == "Place":
+						#then we literally return the i value
+						return i
+					
+					#DO NOT FORGET TO break the for loop
+					break
+					
+				elif PlayerDeckSlots[i] != null:
+					if i != 4:
+						#we print that the slot is full if we havent checked the last slot
+						print("player slot full")
+					elif i == 4:
+						#we print that all the slots are full and return -100, -100 for now,
+						print("all player slots full")
+						if return_type == "Vec2":
+							return Vector2(-100, -100)
+						elif return_type == "Place":
+							return 5
+			elif deck == enemy_deck:
+				#checks if the enemy deck slot is available
+				if EnemyDeckSlots[i] == null:
+					if return_type == "Vec2":
+						#then we return the i value of the enemy deck position array
+						return EnemyDeckPositions[i]
+					elif return_type == "Place":
+						#then we literally return the i value
+						return i
+					#DO NOT FORGET TO break the for loop
+					break
+					
+				elif EnemyDeckSlots[i] != null:
+					if i != 4:
+						#we print that the slot is full if we havent checked the last slot
+						print("enemy slot full")
+					elif i == 4:
+						#we print that all the slots are full and return -100, -100 for now,
+						print("all enemy slots full")
+						if return_type == "Vec2":
+							return Vector2(-100, -100)
+						elif return_type == "Place":
+							return 5
 	#else if the deck is completely empty
 	elif deck.get_children().empty():
 		#we return the first value of the specified deck position array
@@ -124,7 +153,7 @@ func change_state(state_to):
 	state = state_to
 
 func pick_from_array(array: Array):
-	#pick from random array
+	#self explanatory
 	randomize()
 	array.shuffle()
 	return array.front()
@@ -147,6 +176,11 @@ func play_card(who, card):
 		if card.effect.begins_with("+"):
 			player_charge_meter.value += int(card.effect.right(0))
 			$Charge.play()
+		
+		for i in PlayerDeckSlots:
+			if i == card:
+				PlayerDeckSlots[i] = null
+				break
 		
 		#set the card's z index to the current turn count
 		card.z_index = turns
@@ -186,7 +220,7 @@ func play_card(who, card):
 		enemy_deck.remove_child(card)
 		enemy_play_pos.add_child(card)
 
-func add_card_to_deck(who: String):
+func draw_card(who: String):
 	#this function adds random possible cards to the specified deck
 	
 	#if the player is the player
@@ -197,8 +231,10 @@ func add_card_to_deck(who: String):
 		player_deck.add_child(new_card)
 		#sets the card's global position to the shuffled deck's global position
 		new_card.global_position = shuffled_deck.global_position
+		#Sets the player deck slot's number to be a taken slot
+		PlayerDeckSlots[get_open_slot(player_deck, "Place")] = new_card
 		#move to the card to an available position on the player's deck
-		new_card.move_to_target(0.2, new_card, "global_position", new_card.global_position, get_open_slot(player_deck))
+		new_card.move_to_target(0.2, new_card, "global_position", new_card.global_position, get_open_slot(player_deck, "Vec2"))
 		#creates the stats for the cards
 		new_card.card = pick_from_array(possible_cards_based_off_charges(player_charge_meter.value))
 		new_card.set_stats()
@@ -211,8 +247,10 @@ func add_card_to_deck(who: String):
 		enemy_deck.add_child(new_card)
 		#sets the card's global position to the shuffled deck's global position
 		new_card.global_position = shuffled_deck.global_position
+		#Sets the player deck slot's number to be a taken slot
+		PlayerDeckSlots[get_open_slot(enemy_deck, "Place")] = new_card
 		#move to the card to an available position on the enemy's deck
-		new_card.move_to_target(0.2, new_card, "global_position", new_card.global_position, get_open_slot(enemy_deck))
+		new_card.move_to_target(0.2, new_card, "global_position", new_card.global_position, get_open_slot(enemy_deck, "Vec2"))
 		#creates the stats for the cards
 		new_card.card = pick_from_array(possible_cards_based_off_charges(enemy_charge_meter.value))
 		new_card.set_stats()
@@ -257,8 +295,8 @@ func _on_CardPlayArea_input_event(_viewport, event, _shape_idx):
 						play_card("player", Global.recently_clicked_card)
 						play_card("enemy", enemy_selected_card)
 						#add a new card to each of the card players
-						add_card_to_deck("player")
-						add_card_to_deck("enemy")
+						draw_card("player")
+						draw_card("enemy")
 						#set the recently clicked card to nothing/Nil
 						Global.recently_clicked_card = null
 						#wait for 1 second to set the state to playing to start the loop all over again
