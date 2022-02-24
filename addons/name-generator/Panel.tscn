@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/name-generator/Panel.gd" type="Script" id=1]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GenerateButton" type="Button" parent="."]
+margin_right = 240.0
+margin_bottom = 20.0
+text = "Generate Name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 24.0
+margin_right = 240.0
+margin_bottom = 48.0
+
+[node name="CopyButton" type="Button" parent="HBoxContainer"]
+margin_right = 47.0
+margin_bottom = 24.0
+text = "Copy!"
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
+margin_left = 51.0
+margin_right = 109.0
+margin_bottom = 24.0
+expand_to_text_length = true
+caret_blink = true
+
+[connection signal="pressed" from="GenerateButton" to="." method="_on_GenerateButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/CopyButton" to="." method="_on_CopyButton_pressed"]

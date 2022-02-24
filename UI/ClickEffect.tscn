@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/ClickEffect.gd" type="Script" id=1]
+
+[node name="ClickEffect" type="Node2D"]
+z_index = 10
+script = ExtResource( 1 )
+
+[node name="Particle" type="CPUParticles2D" parent="."]
+z_index = 10
+emitting = false
+amount = 20
+lifetime = 2.3
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+initial_velocity = 73.4
+angular_velocity = -720.0
+radial_accel = -100.0
+angle = 92.5
+scale_amount = 2.0
+scale_amount_random = 1.0
+color = Color( 1, 0.937255, 0, 1 )

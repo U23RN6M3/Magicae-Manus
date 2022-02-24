@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://PixelFont.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Developer_Mode/Error.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 1 )
+
+[node name="Error" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 8.0
+margin_right = 248.0
+margin_bottom = 160.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "A Problem Has Occured:
+The scene you are trying to load does not exist in the filepath \"res://\". If you have come across this error as a beta tester, please report the problem to Discord User Xuvgo#1834 for an attempt to fix this bug for the final release. Thank You."
+autowrap = true
+
+[node name="Button" type="Button" parent="."]
+margin_left = 64.0
+margin_top = 128.0
+margin_right = 192.0
+margin_bottom = 148.0
+text = "ok"
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

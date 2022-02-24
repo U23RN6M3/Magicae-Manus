@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Magic.mp3-0dadee4aa0ce21fb5bd3e4132b45432a.mp3str"
+
+[deps]
+
+source_file="res://SFX/Magic.mp3"
+dest_files=[ "res://.import/Magic.mp3-0dadee4aa0ce21fb5bd3e4132b45432a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

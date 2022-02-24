@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Go Ahead, Charge!.mp3-7f35887894154057c5a4976b0e16feee.mp3str"
+
+[deps]
+
+source_file="res://SFX/Go Ahead, Charge!.mp3"
+dest_files=[ "res://.import/Go Ahead, Charge!.mp3-7f35887894154057c5a4976b0e16feee.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

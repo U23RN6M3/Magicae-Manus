@@ -1,0 +1,80 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node",
+"class": "NameGenerator",
+"language": "GDScript",
+"path": "res://addons/name-generator/name_generator.gd"
+} ]
+_global_script_class_icons={
+"NameGenerator": ""
+}
+
+[application]
+
+config/name="Magicae Manus"
+config/description="An old school game recreated in Godot"
+run/main_scene="res://UI/StartupScreen.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Magicae_Manus"
+config/icon="res://icon.png"
+
+[autoload]
+
+Global="*res://Main/Global.tscn"
+DialogSource="*res://Dialogue/DialogSource.tscn"
+
+[display]
+
+window/size/width=256
+window/size/height=160
+window/size/resizable=false
+window/size/fullscreen=true
+window/size/test_width=768
+window/size/test_height=480
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/name-generator/plugin.cfg" )
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": false,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

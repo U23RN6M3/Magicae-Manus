@@ -1,0 +1,255 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://PixelFont.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://UI/Bar.png" type="Texture" id=2]
+[ext_resource path="res://Main/Arena.gd" type="Script" id=3]
+[ext_resource path="res://Card/CardBack.png" type="Texture" id=4]
+[ext_resource path="res://Card/Card.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Dialogue/Dialogue.tscn" type="PackedScene" id=6]
+[ext_resource path="res://SFX/ChargedSFX.wav" type="AudioStream" id=7]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.2, 0.180392, 0.219608, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.156863, 0.152941, 0.168627, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.0941176, 0.0862745, 0.109804, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=2]
+outline_size = 1
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0, 0.741176, 1, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.301961, 0.839216, 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0.105882, 0.309804, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.0588235, 0.0980392, 0.52549, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.0941176, 0.0862745, 0.109804, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 16, 24 )
+
+[node name="Arena" type="Node" groups=["ParticleEffect"]]
+script = ExtResource( 3 )
+
+[node name="UISpace" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Board" type="Panel" parent="UISpace"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerPlayPos" type="Node2D" parent="UISpace/Board"]
+position = Vector2( 88, 104 )
+z_index = 1
+
+[node name="EnemyPlayPos" type="Node2D" parent="UISpace/Board"]
+position = Vector2( 40, 104 )
+rotation = 3.14159
+z_index = 1
+
+[node name="EnemyPlay" type="Panel" parent="UISpace/Board"]
+margin_left = 24.0
+margin_top = 80.0
+margin_right = 56.0
+margin_bottom = 128.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UISpace/Board/EnemyPlay"]
+margin_top = 48.0
+margin_right = 32.0
+margin_bottom = 62.0
+custom_colors/font_color = Color( 0.682353, 0.592157, 0.917647, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Enemy"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="TextureProgress" parent="UISpace/Board/EnemyPlay"]
+margin_left = 24.0
+margin_top = 8.0
+margin_right = 40.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 16, 16 )
+rect_rotation = -90.0
+value = 100.0
+rounded = true
+texture_under = ExtResource( 2 )
+texture_progress = ExtResource( 2 )
+fill_mode = 4
+tint_under = Color( 0.231373, 0, 0, 1 )
+tint_progress = Color( 1, 0, 0, 1 )
+radial_initial_angle = 360.0
+radial_fill_degrees = 270.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChargeMeter" type="ProgressBar" parent="UISpace/Board/EnemyPlay"]
+margin_left = -8.0
+margin_top = 48.0
+margin_right = 40.0
+margin_bottom = 53.0
+rect_rotation = -90.0
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
+max_value = 20.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerPlay" type="Panel" parent="UISpace/Board"]
+margin_left = 72.0
+margin_top = 80.0
+margin_right = 104.0
+margin_bottom = 128.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UISpace/Board/PlayerPlay"]
+margin_top = -16.0
+margin_right = 32.0
+margin_bottom = -2.0
+custom_colors/font_color = Color( 0.682353, 0.592157, 0.917647, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "You"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="TextureProgress" parent="UISpace/Board/PlayerPlay"]
+margin_left = 8.0
+margin_top = 40.0
+margin_right = 24.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 16, 16 )
+rect_rotation = 90.0
+value = 100.0
+rounded = true
+texture_under = ExtResource( 2 )
+texture_progress = ExtResource( 2 )
+fill_mode = 4
+tint_under = Color( 0.231373, 0, 0, 1 )
+tint_progress = Color( 1, 0, 0, 1 )
+radial_initial_angle = 360.0
+radial_fill_degrees = 270.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChargeMeter" type="ProgressBar" parent="UISpace/Board/PlayerPlay"]
+margin_left = 40.0
+margin_right = 88.0
+margin_bottom = 5.0
+rect_rotation = 90.0
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
+max_value = 20.0
+percent_visible = false
+
+[node name="2DSpace" type="Node2D" parent="."]
+
+[node name="PlayerDeck" type="Node2D" parent="2DSpace"]
+position = Vector2( 172, 145 )
+
+[node name="Card" parent="2DSpace/PlayerDeck" instance=ExtResource( 5 )]
+position = Vector2( -32, 0 )
+
+[node name="EnemyDeck" type="Node2D" parent="2DSpace"]
+position = Vector2( 72, 18 )
+rotation = 3.14159
+
+[node name="Card" parent="2DSpace/EnemyDeck" instance=ExtResource( 5 )]
+position = Vector2( -32, 3.8147e-06 )
+
+[node name="ShuffledDeck" type="Node2D" parent="2DSpace"]
+position = Vector2( 168, 64 )
+
+[node name="Card" type="Sprite" parent="2DSpace/ShuffledDeck"]
+position = Vector2( -0.648758, -0.35561 )
+texture = ExtResource( 4 )
+
+[node name="Card2" type="Sprite" parent="2DSpace/ShuffledDeck"]
+position = Vector2( -3.64874, -2.35561 )
+rotation = 0.0561804
+texture = ExtResource( 4 )
+
+[node name="Card3" type="Sprite" parent="2DSpace/ShuffledDeck"]
+position = Vector2( -1.64876, -4.35561 )
+rotation = -0.298538
+texture = ExtResource( 4 )
+
+[node name="Card4" type="Sprite" parent="2DSpace/ShuffledDeck"]
+texture = ExtResource( 4 )
+
+[node name="CardPlayArea" type="Area2D" parent="2DSpace"]
+position = Vector2( 88, 104 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="2DSpace/CardPlayArea"]
+shape = SubResource( 7 )
+
+[node name="Dialogue" parent="." instance=ExtResource( 6 )]
+
+[node name="CursorControl" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Charge" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[connection signal="input_event" from="2DSpace/CardPlayArea" to="." method="_on_CardPlayArea_input_event"]

@@ -1,0 +1,228 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://UI/MainMenu.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://PixelFont.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Card/Card.tscn" type="PackedScene" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_bottom = -11
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+extra_spacing_bottom = -7
+font_data = ExtResource( 3 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 16, 24 )
+
+[node name="MainMenu" type="Node" groups=["ParticleEffect"]]
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Logo" type="TextureRect" parent="Control/Panel"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 56.0
+margin_bottom = 56.0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="Label" type="Label" parent="Control/Panel/Logo"]
+margin_left = 56.0
+margin_top = -16.0
+margin_right = 144.0
+margin_bottom = 39.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Magicae Manus"
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectCard" type="Label" parent="Control/Panel"]
+margin_left = 216.0
+margin_top = 48.0
+margin_right = 248.0
+margin_bottom = 71.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "Select
+Card"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectCard" type="ColorRect" parent="Control/Panel/SelectCard"]
+margin_top = 56.0
+margin_right = 32.0
+margin_bottom = 104.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Area2D" type="Area2D" parent="Control/Panel/SelectCard/SelectCard"]
+position = Vector2( 16, 24 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Control/Panel/SelectCard/SelectCard/Area2D"]
+shape = SubResource( 4 )
+
+[node name="Cards" type="Node2D" parent="Control/Panel"]
+
+[node name="Campaign" parent="Control/Panel/Cards" instance=ExtResource( 4 )]
+position = Vector2( 24, 128 )
+model = true
+card = "campaign"
+
+[node name="Label" type="Label" parent="Control/Panel/Cards/Campaign"]
+margin_left = -16.0
+margin_top = -48.0
+margin_right = 16.0
+margin_bottom = -34.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "start"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Extras" parent="Control/Panel/Cards" instance=ExtResource( 4 )]
+position = Vector2( 64, 128 )
+model = true
+card = "extras"
+
+[node name="Label" type="Label" parent="Control/Panel/Cards/Extras"]
+margin_left = -16.0
+margin_top = -48.0
+margin_right = 16.0
+margin_bottom = -34.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "xtras"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" parent="Control/Panel/Cards" instance=ExtResource( 4 )]
+position = Vector2( 104, 128 )
+model = true
+card = "options"
+
+[node name="Label" type="Label" parent="Control/Panel/Cards/Options"]
+margin_left = -16.0
+margin_top = -48.0
+margin_right = 16.0
+margin_bottom = -34.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "setng"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="Control/Panel/Cards" instance=ExtResource( 4 )]
+position = Vector2( 144, 128 )
+model = true
+card = "credits"
+
+[node name="Label" type="Label" parent="Control/Panel/Cards/Credits"]
+margin_left = -16.0
+margin_top = -48.0
+margin_right = 16.0
+margin_bottom = -34.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "crdit"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" parent="Control/Panel/Cards" instance=ExtResource( 4 )]
+position = Vector2( 184, 128 )
+model = true
+card = "quit"
+
+[node name="Label" type="Label" parent="Control/Panel/Cards/Quit"]
+margin_left = -16.0
+margin_top = -48.0
+margin_right = 16.0
+margin_bottom = -34.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "quit"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Control/Panel"]
+margin_left = 210.0
+margin_top = 9.0
+margin_right = 212.0
+margin_bottom = 153.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FadeEffect" type="ColorRect" parent="Control/Panel"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="Control/Panel/FadeEffect"]
+
+[connection signal="input_event" from="Control/Panel/SelectCard/SelectCard/Area2D" to="Control" method="_on_Area2D_input_event"]

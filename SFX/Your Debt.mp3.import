@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Your Debt.mp3-17660f33cfa6c8352bd657b8b841890f.mp3str"
+
+[deps]
+
+source_file="res://SFX/Your Debt.mp3"
+dest_files=[ "res://.import/Your Debt.mp3-17660f33cfa6c8352bd657b8b841890f.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Voice2.wav-e456a9449aae5255b911d9e0a0b8c17f.sample"
+
+[deps]
+
+source_file="res://Dialogue/Voice2.wav"
+dest_files=[ "res://.import/Voice2.wav-e456a9449aae5255b911d9e0a0b8c17f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
