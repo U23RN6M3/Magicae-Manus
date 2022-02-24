@@ -22,6 +22,8 @@ var effect = "0"
 func _ready() -> void:
 	randomize()
 	
+	print("Card Spawned")
+
 	if model == true:
 		card_effect.text = "^"
 		effect = card
@@ -52,7 +54,7 @@ func set_stats():
 	card_effect.text = "[" + card + "]"
 	effect = card
 	
-	print(effect)
+	
 	
 	if card == "#7":
 		set_img("res://Card/Block.png")
