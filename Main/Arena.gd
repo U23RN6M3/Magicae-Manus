@@ -206,6 +206,12 @@ func play_card(who, card):
 			enemy_charge_meter.value += int(card.effect.right(0))
 			$Charge.play()
 		
+
+		for i in range(len(EnemyDeckSlots)):
+			if i == card:
+				EnemyDeckSlots[i] = null
+				break
+		
 		#set the card's z index to the current turn count
 		card.z_index = turns
 		
