@@ -65,8 +65,6 @@ func _ready():
 		i.usable = false
 # warning-ignore:return_value_discarded
 	$Dialogue.connect("dialogDone", self, "change_state", [PLAYING])
-	add_card_to_deck("enemy")
-	add_card_to_deck("player")
 
 func _physics_process(_delta):
 	match state:
