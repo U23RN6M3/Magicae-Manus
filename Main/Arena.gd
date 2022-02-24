@@ -177,7 +177,7 @@ func play_card(who, card):
 			player_charge_meter.value += int(card.effect.right(0))
 			$Charge.play()
 		
-		for i in PlayerDeckSlots:
+		for i in range(len(PlayerDeckSlots)):
 			if i == card:
 				PlayerDeckSlots[i] = null
 				break
