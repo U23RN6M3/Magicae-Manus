@@ -56,10 +56,8 @@ func set_stats():
 	
 	
 	
-	if card == "#7":
+	if card.begins_with("#"):
 		set_img("res://Card/Block.png")
-	elif card == "#14":
-		set_img("res://Card/SuperBlock.png")
 	elif card.begins_with("+"):
 		set_img("res://Card/Charge.png")
 	elif card == "-1":
