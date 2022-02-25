@@ -92,64 +92,25 @@ func set_enemy_selected_card(strat: String = "first-to-last"):
 func get_open_slot(deck, return_type):
 	#checks for open slots in the appropriate deck
 	
-	#if the deck is not empty
-	if not deck.get_children().empty():
-		#then we will perform a for loop to check for open slots
+	if deck == player_deck:
 		for i in range(5):
-			if deck == player_deck:
-				#checks if the player deck slot is available
-				if PlayerDeckSlots[i] == null:
-					if return_type == "Vec2":
-						#then we return the i value of the player deck position array
-						return PlayerDeckPositions[i]
-					elif return_type == "Place":
-						#then we literally return the i value
-						return i
-					
-					#DO NOT FORGET TO break the for loop
-					break
-					
-				elif PlayerDeckSlots[i] != null:
+			if PlayerDeckSlots[i] == null:
+				if return_type == "Vec2":
+					return PlayerDeckSlots[i]
+				elif return_type == "Place":
+					return i
+				break
+			elif PlayerDeckSlots[i] != null:
+				if return_type == "Vec2":
 					if i != 4:
-						#we print that the slot is full if we havent checked the last slot
-						print("player slot full")
+						print("taken_slot")
 					elif i == 4:
-						#we print that all the slots are full and return -100, -100 for now,
-						print("all player slots full")
+						print("all slots taken")
 						if return_type == "Vec2":
 							return Vector2(-100, -100)
 						elif return_type == "Place":
 							return 5
-			elif deck == enemy_deck:
-				#checks if the enemy deck slot is available
-				if EnemyDeckSlots[i] == null:
-					if return_type == "Vec2":
-						#then we return the i value of the enemy deck position array
-						return EnemyDeckPositions[i]
-					elif return_type == "Place":
-						#then we literally return the i value
-						return i
-					#DO NOT FORGET TO break the for loop
-					break
-					
-				elif EnemyDeckSlots[i] != null:
-					if i != 4:
-						#we print that the slot is full if we havent checked the last slot
-						print("enemy slot full")
-					elif i == 4:
-						#we print that all the slots are full and return -100, -100 for now,
-						print("all enemy slots full")
-						if return_type == "Vec2":
-							return Vector2(-100, -100)
-						elif return_type == "Place":
-							return 5
-	#else if the deck is completely empty
-	elif deck.get_children().empty():
-		#we return the first value of the specified deck position array
-		if deck == player_deck:
-			return PlayerDeckPositions[0]
-		elif deck == enemy_deck:
-			return EnemyDeckPositions[0]
+							
 
 func change_state(state_to):
 	#changes state to state_to
