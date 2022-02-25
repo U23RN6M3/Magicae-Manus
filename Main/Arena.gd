@@ -178,7 +178,7 @@ func play_card(who, card):
 			$Charge.play()
 		
 		for i in range(len(PlayerDeckSlots)):
-			if i == card:
+			if card == PlayerDeckSlots[i]:
 				PlayerDeckSlots[i] = null
 				break
 		
@@ -208,7 +208,7 @@ func play_card(who, card):
 		
 
 		for i in range(len(EnemyDeckSlots)):
-			if i == card:
+			if card == EnemyDeckSlots[i]:
 				EnemyDeckSlots[i] = null
 				break
 		
