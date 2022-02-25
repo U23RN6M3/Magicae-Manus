@@ -184,10 +184,17 @@ func play_card(who, card):
 			$Charge.play()
 			if enemy_health.value > 0:
 				if not enemy_recently_played_card.effect == "#":
-					screen_shake.start()
-					$Damaged.play(0.06)
-					$Loose.play()
-					enemy_health.value += int(card.effect.right(0))
+					if not enemy_recently_played_card.effect.begins_with("-"):
+						screen_shake.start()
+						$Damaged.play(0.06)
+						$Loose.play()
+						enemy_health.value += int(card.effect.right(0))
+					elif enemy_recently_played_card.effect.begins_with("-"):
+						if int(enemy_recently_played_card.effect) > int(card.effect):
+							screen_shake.start()
+							$Damaged.play(0.06)
+							$Loose.play()
+							enemy_health.value += int(enemy_recently_played_card.effect) - int(card.effect.right(0))
 		
 		
 		for i in range(len(PlayerDeckSlots)):
@@ -224,10 +231,17 @@ func play_card(who, card):
 			$Charge.play()
 			if player_health.value > 0:
 				if not player_recently_played_card.effect == "#":
-					screen_shake.start()
-					$Damaged.play(0.06)
-					$Loose.play()
-					player_health.value += int(card.effect.right(0))
+					if not player_recently_played_card.effect.begins_with("-"):
+						screen_shake.start()
+						$Damaged.play(0.06)
+						$Loose.play()
+						player_health.value += int(card.effect.right(0))
+					elif player_recently_played_card.effect.begins_with("-"):
+						if int(player_recently_played_card.effect) > int(card.effect):
+							screen_shake.start()
+							$Damaged.play(0.06)
+							$Loose.play()
+							player_health.value += int(player_recently_played_card.effect) - int(card.effect.right(0))
 		
 		for i in range(len(EnemyDeckSlots)):
 			if EnemyDeckSlots[i] == card:
@@ -257,6 +271,8 @@ func draw_card(who: String, first_move_card: bool):
 		var new_card = Card.instance()
 		var open_slot_num = get_open_slot(player_deck, "Place")
 		var open_slot = get_open_slot(player_deck, "Vec2")
+		
+		new_card.card_owner = "player"
 		#adds the new card to the player's deck
 		player_deck.add_child(new_card)
 		#sets the card's global position to the shuffled deck's global position
@@ -278,6 +294,8 @@ func draw_card(who: String, first_move_card: bool):
 		var new_card = Card.instance()
 		var open_slot_num = get_open_slot(enemy_deck, "Place")
 		var open_slot = get_open_slot(enemy_deck, "Vec2")
+		
+		new_card.card_owner = "enemy"
 		#adds the new card to the enemys's deck
 		enemy_deck.add_child(new_card)
 		#sets the card's global position to the shuffled deck's global position
@@ -303,7 +321,11 @@ func possible_cards_based_off_charges(charges: int) -> Array:
 	if charges >= 2:
 		array.append(pick_from_array(["+2", "-2"]))
 	if charges >= 3:
-		array.append(pick_from_array(["-2", "+2", "+1", "#"]))
+		array.append(pick_from_array(["-3", "+1", "#"]))
+	if charges >= 4:
+		array.append(pick_from_array(["-4", "+3", "-2"]))
+	if charges >= 5:
+		array.append(pick_from_array(["-5", "+4", "+2", "-3"]))
 	
 	return array
 
