@@ -59,6 +59,9 @@ var enemy_selected_card = null
 func _ready():
 	set_enemy_selected_card()
 	
+	draw_card("player")
+	draw_card("enemy")
+	
 	#$Dialogue.dialog = DialogSource.tutorial1
 	for i in enemy_deck.get_children():
 		i.set_flipped(true)
