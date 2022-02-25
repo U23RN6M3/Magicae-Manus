@@ -1,10 +1,9 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://PixelFont.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://UI/Bar.png" type="Texture" id=2]
 [ext_resource path="res://Main/Arena.gd" type="Script" id=3]
 [ext_resource path="res://Card/CardBack.png" type="Texture" id=4]
-[ext_resource path="res://Card/Card.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Dialogue/Dialogue.tscn" type="PackedScene" id=6]
 [ext_resource path="res://SFX/ChargedSFX.wav" type="AudioStream" id=7]
 
@@ -204,15 +203,9 @@ percent_visible = false
 [node name="PlayerDeck" type="Node2D" parent="2DSpace"]
 position = Vector2( 172, 145 )
 
-[node name="Card" parent="2DSpace/PlayerDeck" instance=ExtResource( 5 )]
-position = Vector2( -32, 0 )
-
 [node name="EnemyDeck" type="Node2D" parent="2DSpace"]
-position = Vector2( 72, 8 )
+position = Vector2( 104, 16 )
 rotation = 3.14159
-
-[node name="Card" parent="2DSpace/EnemyDeck" instance=ExtResource( 5 )]
-position = Vector2( -32, 3.8147e-06 )
 
 [node name="ShuffledDeck" type="Node2D" parent="2DSpace"]
 position = Vector2( 168, 64 )
