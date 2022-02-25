@@ -208,11 +208,11 @@ position = Vector2( 172, 145 )
 position = Vector2( -32, 0 )
 
 [node name="EnemyDeck" type="Node2D" parent="2DSpace"]
-position = Vector2( 72, 8 )
+position = Vector2( 104, 16 )
 rotation = 3.14159
 
 [node name="Card" parent="2DSpace/EnemyDeck" instance=ExtResource( 5 )]
-position = Vector2( -32, 3.8147e-06 )
+position = Vector2( 104, 18 )
 
 [node name="ShuffledDeck" type="Node2D" parent="2DSpace"]
 position = Vector2( 168, 64 )

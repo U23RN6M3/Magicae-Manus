@@ -1,8 +1,6 @@
 extends Node
 
 
-# anus
-
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Intro":
 # warning-ignore:return_value_discarded
