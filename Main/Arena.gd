@@ -5,10 +5,12 @@ const Card = preload("res://Card/Card.tscn")
 enum {
 	PLAYING,
 	PAUSED,
-	TALKING
+	TALKING,
+	FINISHED
 }
 
 onready var screen_shake = $Camera/ScreenShake
+onready var winner_prompt = $UISpace/WinnerPrompt
 
 onready var shuffled_deck = $"2DSpace/ShuffledDeck"
 onready var player_charge_meter = $UISpace/Board/PlayerPlay/ChargeMeter
@@ -88,6 +90,8 @@ func _physics_process(_delta):
 		PLAYING:
 			cursor_control_to(false)
 		PAUSED:
+			cursor_control_to(true)
+		FINISHED:
 			cursor_control_to(true)
 
 func set_enemy_selected_card(strat: String = "first-to-last"):
@@ -188,9 +192,7 @@ func play_card(who, card):
 		
 		for i in range(len(PlayerDeckSlots)):
 			if PlayerDeckSlots[i] == card:
-				print(str(PlayerDeckSlots[i]) + " removing from player deck")
 				PlayerDeckSlots[i] = null
-				print(str("removed card from player deck, slot is now: " + str(PlayerDeckSlots[i])))
 				break
 		
 		#set the card's z index to the current turn count
@@ -229,7 +231,6 @@ func play_card(who, card):
 		
 		for i in range(len(EnemyDeckSlots)):
 			if EnemyDeckSlots[i] == card:
-				print(str(EnemyDeckSlots[i]) + " removed from deck")
 				EnemyDeckSlots[i] = null
 				break
 		
@@ -300,13 +301,11 @@ func possible_cards_based_off_charges(charges: int) -> Array:
 	if charges >= 1:
 		array.append(pick_from_array(["-1"]))
 	if charges >= 2:
-		array.append(pick_from_array(["+2", "-1", "-2"]))
+		array.append(pick_from_array(["+2", "-2"]))
 	if charges >= 3:
-		array.append(pick_from_array(["-2", "-2", "+2", "+1"]))
+		array.append(pick_from_array(["-2", "+2", "+1", "#"]))
 	
 	return array
-
-# i know i sshown my discord uh too lazy to not show it lol
 
 func next_turn():
 	player_recently_played_card = Global.recently_clicked_card
