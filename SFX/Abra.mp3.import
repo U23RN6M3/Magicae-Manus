@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Abra.mp3-4c041de6f79574fa739cff70b087ef37.mp3str"
+
+[deps]
+
+source_file="res://SFX/Abra.mp3"
+dest_files=[ "res://.import/Abra.mp3-4c041de6f79574fa739cff70b087ef37.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

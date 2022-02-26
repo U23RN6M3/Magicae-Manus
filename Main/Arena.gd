@@ -61,12 +61,17 @@ onready var EnemyDeckSlots = [
 var state = TALKING
 var turns: int = 0
 
+var shake_x = -128
+
 var enemy_selected_card = null
 
 var player_recently_played_card = null
 var enemy_recently_played_card = null
 
 func _ready():
+	$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", Vector2(-64, 0), Vector2(-64, -128), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+	$UISpace/BackGround/GreenMaskTween.start()
+	
 	draw_card("player", true)
 	draw_card("enemy", true)
 	
@@ -198,9 +203,11 @@ func play_card(who, card):
 				screen_shake.start()
 				$Damaged.play(0.06)
 				$Loose.play()
-				enemy_health.value += -2
+				$Charge.play()
+				player_charge_meter.value += enemy_charge_meter.value
+				enemy_charge_meter.value = 0
 			elif enemy_recently_played_card.effect.begins_with("##"):
-				player_health.value += -2
+				player_health.value += -3
 		
 		for i in range(len(PlayerDeckSlots)):
 			if PlayerDeckSlots[i] == card:
@@ -235,7 +242,7 @@ func play_card(who, card):
 			enemy_charge_meter.value += int(card.effect.right(0))
 			$Charge.play()
 			if player_health.value > 0:
-				if not player_recently_played_card.effect == "#":
+				if not player_recently_played_card.effect.begins_with("#"):
 					if not player_recently_played_card.effect.begins_with("-"):
 						screen_shake.start()
 						$Damaged.play(0.06)
@@ -252,9 +259,11 @@ func play_card(who, card):
 				screen_shake.start()
 				$Damaged.play(0.06)
 				$Loose.play()
-				player_health.value += -2
+				$Charge.play()
+				enemy_charge_meter.value += player_charge_meter.value
+				player_charge_meter.value = 0
 			elif player_recently_played_card.effect.begins_with("##"):
-				enemy_health.value += -2
+				enemy_health.value += -3
 		
 		for i in range(len(EnemyDeckSlots)):
 			if EnemyDeckSlots[i] == card:
@@ -330,13 +339,13 @@ func possible_cards_based_off_charges(charges: int) -> Array:
 	if charges >= 0:
 		array.append(pick_from_array(["+1", "#"]))
 	if charges >= 1:
-		array.append(pick_from_array(["-1"]))
+		array.append(pick_from_array(["-1", "+1"]))
 	if charges >= 2:
 		array.append(pick_from_array(["+2", "-2"]))
 	if charges >= 3:
-		array.append(pick_from_array(["-1", "+1"]))
+		array.append(pick_from_array(["-1", "+2"]))
 	if charges >= 4:
-		array.append(pick_from_array(["##", "+1", "-2"]))
+		array.append(pick_from_array(["##", "~", "-2"]))
 	if charges >= 5:
 		array.append(pick_from_array(["~", "+2", "+1", "-2"]))
 	
@@ -379,6 +388,7 @@ func end_game(winner: String):
 	winner_prompt.show()
 	winner_prompt2d.get_child(1).start()
 	screen_shake.start()
+	$BattleMusic.stop()
 	change_state(FINISHED)
 	if winner == "player":
 		winner_prompt.get_child(0).text = "win"
@@ -406,3 +416,14 @@ func _on_CardPlayArea_input_event(_viewport, event, _shape_idx):
 					if enemy_selected_card != null:
 						turns += 1
 						next_turn()
+
+
+func _on_GreenMaskTween_tween_all_completed():
+	if shake_x == -128:
+		$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", $UISpace/BackGround/GreenMask.rect_position, Vector2(0, $UISpace/BackGround/GreenMask.rect_position.y), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+		$UISpace/BackGround/GreenMaskTween.start()
+		shake_x = 0
+	elif shake_x == 0:
+		$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", $UISpace/BackGround/GreenMask.rect_position, Vector2(-128, $UISpace/BackGround/GreenMask.rect_position.y), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+		$UISpace/BackGround/GreenMaskTween.start()
+		shake_x = -128
