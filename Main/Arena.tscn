@@ -57,7 +57,7 @@ size = 32
 font_data = ExtResource( 1 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 16, 24 )
+extents = Vector2( 15, 23 )
 
 [node name="Arena" type="Node" groups=["ParticleEffect"]]
 script = ExtResource( 3 )
@@ -358,7 +358,6 @@ smoothing_enabled = true
 
 [node name="BattleMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 13 )
-pitch_scale = 0.8
 autoplay = true
 
 [connection signal="tween_all_completed" from="UISpace/BackGround/GreenMaskTween" to="." method="_on_GreenMaskTween_tween_all_completed"]

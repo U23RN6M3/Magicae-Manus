@@ -4,7 +4,6 @@
 [ext_resource path="res://Dialogue/Dialogue.gd" type="Script" id=2]
 [ext_resource path="res://Dialogue/Voice2.wav" type="AudioStream" id=3]
 
-
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 1 )
 
