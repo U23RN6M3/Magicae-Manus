@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://PixelFont.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://UI/Bar.png" type="Texture" id=2]
@@ -11,23 +11,18 @@
 [ext_resource path="res://SFX/Damaged2SFX.wav" type="AudioStream" id=9]
 [ext_resource path="res://SFX/Defeat.wav" type="AudioStream" id=10]
 [ext_resource path="res://SFX/Win.wav" type="AudioStream" id=11]
+[ext_resource path="res://UI/BattleBG.png" type="Texture" id=12]
+[ext_resource path="res://SFX/Abra.mp3" type="AudioStream" id=13]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.2, 0.180392, 0.219608, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.156863, 0.152941, 0.168627, 1 )
-border_blend = true
+[sub_resource type="StyleBoxEmpty" id=9]
 
 [sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.0941176, 0.0862745, 0.109804, 1 )
+bg_color = Color( 0.0941176, 0.0862745, 0.109804, 0 )
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color( 0, 0, 0, 1 )
+border_color = Color( 0, 0.866667, 1, 1 )
 
 [sub_resource type="DynamicFont" id=2]
 outline_size = 1
@@ -50,14 +45,15 @@ border_width_bottom = 1
 border_color = Color( 0.0588235, 0.0980392, 0.52549, 1 )
 
 [sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.0941176, 0.0862745, 0.109804, 1 )
+bg_color = Color( 0.0941176, 0.0862745, 0.109804, 0 )
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color( 0, 0, 0, 1 )
+border_color = Color( 0, 0.866667, 1, 1 )
 
 [sub_resource type="DynamicFont" id=8]
+size = 32
 font_data = ExtResource( 1 )
 
 [sub_resource type="RectangleShape2D" id=7]
@@ -78,7 +74,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -213,9 +209,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CanvasLayer" type="ParallaxBackground" parent="UISpace"]
+[node name="BackGround" type="ParallaxBackground" parent="UISpace"]
 
-[node name="BG" type="ColorRect" parent="UISpace/CanvasLayer"]
+[node name="BG" type="ColorRect" parent="UISpace/BackGround"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -16.0
@@ -227,6 +223,23 @@ color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GreenMask" type="TextureRect" parent="UISpace/BackGround"]
+modulate = Color( 1, 1, 1, 0.0823529 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -64.0
+margin_right = 128.0
+margin_bottom = 72.0
+mouse_filter = 2
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GreenMaskTween" type="Tween" parent="UISpace/BackGround"]
 
 [node name="WinnerPrompt2D" type="Sprite" parent="UISpace"]
 position = Vector2( 0, 72 )
@@ -245,9 +258,9 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 margin_left = -16.0
-margin_top = -8.0
+margin_top = -16.0
 margin_right = 16.0
-margin_bottom = 8.0
+margin_bottom = 16.0
 color = Color( 0, 0, 0, 0.796078 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -258,10 +271,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -7.0
-margin_right = 20.0
-margin_bottom = 7.0
+margin_left = -30.0
+margin_top = -13.0
+margin_right = 30.0
+margin_bottom = 13.0
 custom_fonts/font = SubResource( 8 )
 text = "-----"
 align = 1
@@ -343,4 +356,9 @@ smoothing_enabled = true
 
 [node name="ScreenShake" parent="Camera" instance=ExtResource( 5 )]
 
+[node name="BattleMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+autoplay = true
+
+[connection signal="tween_all_completed" from="UISpace/BackGround/GreenMaskTween" to="." method="_on_GreenMaskTween_tween_all_completed"]
 [connection signal="input_event" from="2DSpace/CardPlayArea" to="." method="_on_CardPlayArea_input_event"]

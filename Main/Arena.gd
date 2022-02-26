@@ -61,12 +61,17 @@ onready var EnemyDeckSlots = [
 var state = TALKING
 var turns: int = 0
 
+var shake_x = -128
+
 var enemy_selected_card = null
 
 var player_recently_played_card = null
 var enemy_recently_played_card = null
 
 func _ready():
+	$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", Vector2(-64, 0), Vector2(-64, -128), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+	$UISpace/BackGround/GreenMaskTween.start()
+	
 	draw_card("player", true)
 	draw_card("enemy", true)
 	
@@ -379,6 +384,7 @@ func end_game(winner: String):
 	winner_prompt.show()
 	winner_prompt2d.get_child(1).start()
 	screen_shake.start()
+	$BattleMusic.stop()
 	change_state(FINISHED)
 	if winner == "player":
 		winner_prompt.get_child(0).text = "win"
@@ -406,3 +412,14 @@ func _on_CardPlayArea_input_event(_viewport, event, _shape_idx):
 					if enemy_selected_card != null:
 						turns += 1
 						next_turn()
+
+
+func _on_GreenMaskTween_tween_all_completed():
+	if shake_x == -128:
+		$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", $UISpace/BackGround/GreenMask.rect_position, Vector2(0, $UISpace/BackGround/GreenMask.rect_position.y), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+		$UISpace/BackGround/GreenMaskTween.start()
+		shake_x = 0
+	elif shake_x == 0:
+		$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", $UISpace/BackGround/GreenMask.rect_position, Vector2(-128, $UISpace/BackGround/GreenMask.rect_position.y), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+		$UISpace/BackGround/GreenMaskTween.start()
+		shake_x = -128
