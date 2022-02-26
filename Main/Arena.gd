@@ -235,7 +235,7 @@ func play_card(who, card):
 			enemy_charge_meter.value += int(card.effect.right(0))
 			$Charge.play()
 			if player_health.value > 0:
-				if not player_recently_played_card.effect == "#":
+				if not player_recently_played_card.effect.begins_with("#"):
 					if not player_recently_played_card.effect.begins_with("-"):
 						screen_shake.start()
 						$Damaged.play(0.06)
