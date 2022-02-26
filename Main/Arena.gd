@@ -203,9 +203,11 @@ func play_card(who, card):
 				screen_shake.start()
 				$Damaged.play(0.06)
 				$Loose.play()
-				enemy_health.value += -2
+				$Charge.play()
+				player_charge_meter.value += enemy_charge_meter.value
+				enemy_charge_meter.value = 0
 			elif enemy_recently_played_card.effect.begins_with("##"):
-				player_health.value += -2
+				player_health.value += -3
 		
 		for i in range(len(PlayerDeckSlots)):
 			if PlayerDeckSlots[i] == card:
@@ -257,9 +259,11 @@ func play_card(who, card):
 				screen_shake.start()
 				$Damaged.play(0.06)
 				$Loose.play()
-				player_health.value += -2
+				$Charge.play()
+				enemy_charge_meter.value += player_charge_meter.value
+				player_charge_meter.value = 0
 			elif player_recently_played_card.effect.begins_with("##"):
-				enemy_health.value += -2
+				enemy_health.value += -3
 		
 		for i in range(len(EnemyDeckSlots)):
 			if EnemyDeckSlots[i] == card:
@@ -335,13 +339,13 @@ func possible_cards_based_off_charges(charges: int) -> Array:
 	if charges >= 0:
 		array.append(pick_from_array(["+1", "#"]))
 	if charges >= 1:
-		array.append(pick_from_array(["-1"]))
+		array.append(pick_from_array(["-1", "+1"]))
 	if charges >= 2:
 		array.append(pick_from_array(["+2", "-2"]))
 	if charges >= 3:
-		array.append(pick_from_array(["-1", "+1"]))
+		array.append(pick_from_array(["-1", "+2"]))
 	if charges >= 4:
-		array.append(pick_from_array(["##", "+1", "-2"]))
+		array.append(pick_from_array(["##", "~", "-2"]))
 	if charges >= 5:
 		array.append(pick_from_array(["~", "+2", "+1", "-2"]))
 	
