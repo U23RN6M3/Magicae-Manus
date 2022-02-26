@@ -18,6 +18,7 @@ onready var move_tween = $Move
 var shake_x = -0.5
 
 var effect = "0"
+var card_owner = null
 
 func _ready() -> void:
 	randomize()
@@ -34,7 +35,7 @@ func _ready() -> void:
 				i.hide()
 				
 		else:
-			color_tween.interpolate_property(self, "modulate", Color("#ffdd00"), Color("#ffffff"), 1.5, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+			color_tween.interpolate_property(self, "modulate", Color("#00b7ff"), Color("#ffffff"), 1.5, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 			color_tween.start()
 			
 			set_stats()
@@ -46,7 +47,7 @@ func _ready() -> void:
 
 func _physics_process(_delta):
 	if Global.recently_clicked_card == self:
-		image.modulate = Color("#f7ff00")
+		image.modulate = Color("#00b7ff")
 	else:
 		image.modulate = Color("ffffff")
 
@@ -56,10 +57,8 @@ func set_stats():
 	
 	
 	
-	if card == "#7":
+	if card.begins_with("#"):
 		set_img("res://Card/Block.png")
-	elif card == "#14":
-		set_img("res://Card/SuperBlock.png")
 	elif card.begins_with("+"):
 		set_img("res://Card/Charge.png")
 	elif card == "-1":

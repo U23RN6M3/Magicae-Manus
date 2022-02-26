@@ -1,7 +1,7 @@
 extends Node
 
 onready var test = [
-	{"Text":"Testing", "Pitch":1},
+	{"Text":"[shake rate=15 level=5]Testing[/shake]", "Pitch":1},
 ]
 
 onready var tutorial1 = [

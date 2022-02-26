@@ -5,12 +5,18 @@ const Card = preload("res://Card/Card.tscn")
 enum {
 	PLAYING,
 	PAUSED,
-	TALKING
+	TALKING,
+	FINISHED
 }
+
+onready var screen_shake = $Camera/ScreenShake
+onready var winner_prompt = $UISpace/WinnerPrompt
 
 onready var shuffled_deck = $"2DSpace/ShuffledDeck"
 onready var player_charge_meter = $UISpace/Board/PlayerPlay/ChargeMeter
 onready var enemy_charge_meter = $UISpace/Board/EnemyPlay/ChargeMeter
+onready var player_health = $UISpace/Board/PlayerPlay/Health
+onready var enemy_health = $UISpace/Board/EnemyPlay/Health
 onready var player_play = $UISpace/Board/PlayerPlay
 onready var enemy_play = $UISpace/Board/EnemyPlay
 onready var player_play_pos = $UISpace/Board/PlayerPlayPos
@@ -20,11 +26,11 @@ onready var enemy_deck = get_node("2DSpace/EnemyDeck")
 onready var cursor_control = $CursorControl
 
 var PlayerDeckPositions = [
-	Vector2(140, 145),
-	Vector2(164, 145),
-	Vector2(188, 145),
+	Vector2(236, 145),
 	Vector2(212, 145),
-	Vector2(236, 145)
+	Vector2(188, 145),
+	Vector2(164, 145),
+	Vector2(140, 145),
 ]
 
 var EnemyDeckPositions = [
@@ -36,7 +42,7 @@ var EnemyDeckPositions = [
 ]
 
 onready var PlayerDeckSlots = [
-	$"2DSpace/PlayerDeck/Card",
+	null,
 	null,
 	null,
 	null,
@@ -44,7 +50,7 @@ onready var PlayerDeckSlots = [
 ]
 
 onready var EnemyDeckSlots = [
-	$"2DSpace/PlayerDeck/Card",
+	null,
 	null,
 	null,
 	null,
@@ -56,8 +62,19 @@ var turns: int = 0
 
 var enemy_selected_card = null
 
+var player_recently_played_card = null
+var enemy_recently_played_card = null
+
 func _ready():
+	draw_card("player", true)
+	draw_card("enemy", true)
+	
 	set_enemy_selected_card()
+	
+	draw_card("enemy", false)
+	draw_card("enemy", false)
+	draw_card("player", false)
+	draw_card("player", false)
 	
 	#$Dialogue.dialog = DialogSource.tutorial1
 	for i in enemy_deck.get_children():
@@ -74,79 +91,66 @@ func _physics_process(_delta):
 			cursor_control_to(false)
 		PAUSED:
 			cursor_control_to(true)
+		FINISHED:
+			cursor_control_to(true)
 
 func set_enemy_selected_card(strat: String = "first-to-last"):
 	#enemy ai config
 	
 	#this strategy will need the ai to always pick the first available card and select it
 	if strat == "first-to-last":
-		if len(enemy_deck.get_children()) > 0:
-			enemy_selected_card = enemy_deck.get_children()[0]
+		if len(EnemyDeckSlots) > 0:
+			enemy_selected_card = enemy_deck.get_child(0)
 		else:
-			draw_card("enemy")
+			draw_card("enemy", false)
 			set_enemy_selected_card("first-to-last")
 
 func get_open_slot(deck, return_type):
 	#checks for open slots in the appropriate deck
 	
-	#if the deck is not empty
-	if not deck.get_children().empty():
-		#then we will perform a for loop to check for open slots
-		for i in range(5):
-			if deck == player_deck:
-				#checks if the player deck slot is available
-				if PlayerDeckSlots[i] == null:
-					if return_type == "Vec2":
-						#then we return the i value of the player deck position array
-						return PlayerDeckPositions[i]
-					elif return_type == "Place":
-						#then we literally return the i value
-						return i
-					
-					#DO NOT FORGET TO break the for loop
-					break
-					
-				elif PlayerDeckSlots[i] != null:
-					if i != 4:
-						#we print that the slot is full if we havent checked the last slot
-						print("player slot full")
-					elif i == 4:
-						#we print that all the slots are full and return -100, -100 for now,
-						print("all player slots full")
+	if deck == player_deck:
+		for i in range(len(PlayerDeckSlots)):
+			if PlayerDeckSlots[i] != null:
+				if return_type == "Vec2":
+					if i != len(PlayerDeckSlots):
+						print("player slot " + str(i) + " is taken")
+					elif i == len(PlayerDeckSlots):
+						print("all player slots are taken")
 						if return_type == "Vec2":
 							return Vector2(-100, -100)
+							
 						elif return_type == "Place":
 							return 5
-			elif deck == enemy_deck:
-				#checks if the enemy deck slot is available
-				if EnemyDeckSlots[i] == null:
-					if return_type == "Vec2":
-						#then we return the i value of the enemy deck position array
-						return EnemyDeckPositions[i]
-					elif return_type == "Place":
-						#then we literally return the i value
-						return i
-					#DO NOT FORGET TO break the for loop
-					break
+							
+			elif PlayerDeckSlots[i] == null:
+				if return_type == "Vec2":
+					return PlayerDeckPositions[i]
 					
-				elif EnemyDeckSlots[i] != null:
-					if i != 4:
-						#we print that the slot is full if we havent checked the last slot
-						print("enemy slot full")
-					elif i == 4:
-						#we print that all the slots are full and return -100, -100 for now,
-						print("all enemy slots full")
+				elif return_type == "Place":
+					return i
+					
+	elif deck == enemy_deck:
+		for i in range(len(PlayerDeckSlots)):
+			if EnemyDeckSlots[i] != null:
+				if return_type == "Vec2":
+					if i != len(EnemyDeckSlots):
+						print(print("enemy slot " + str(i) + " is taken"))
+					elif i == len(EnemyDeckSlots):
+						print("all enemy slots are taken")
 						if return_type == "Vec2":
 							return Vector2(-100, -100)
+							
 						elif return_type == "Place":
 							return 5
-	#else if the deck is completely empty
-	elif deck.get_children().empty():
-		#we return the first value of the specified deck position array
-		if deck == player_deck:
-			return PlayerDeckPositions[0]
-		elif deck == enemy_deck:
-			return EnemyDeckPositions[0]
+							
+			elif EnemyDeckSlots[i] == null:
+				if return_type == "Vec2":
+					return EnemyDeckPositions[i]
+					
+				elif return_type == "Place":
+					return i
+					
+				
 
 func change_state(state_to):
 	#changes state to state_to
@@ -167,7 +171,6 @@ func cursor_control_to(value):
 
 func play_card(who, card):
 	#the function that most of the time destroys my braincells
-	turns += 1
 	
 	#if specified player is the player
 	if who == "player":
@@ -176,9 +179,26 @@ func play_card(who, card):
 		if card.effect.begins_with("+"):
 			player_charge_meter.value += int(card.effect.right(0))
 			$Charge.play()
+		elif card.effect.begins_with("-"):
+			player_charge_meter.value += int(card.effect.right(0))
+			$Charge.play()
+			if enemy_health.value > 0:
+				if not enemy_recently_played_card.effect == "#":
+					if not enemy_recently_played_card.effect.begins_with("-"):
+						screen_shake.start()
+						$Damaged.play(0.06)
+						$Loose.play()
+						enemy_health.value += int(card.effect.right(0))
+					elif enemy_recently_played_card.effect.begins_with("-"):
+						if int(enemy_recently_played_card.effect) > int(card.effect):
+							screen_shake.start()
+							$Damaged.play(0.06)
+							$Loose.play()
+							enemy_health.value += int(enemy_recently_played_card.effect) - int(card.effect.right(0))
+		
 		
 		for i in range(len(PlayerDeckSlots)):
-			if card == PlayerDeckSlots[i]:
+			if PlayerDeckSlots[i] == card:
 				PlayerDeckSlots[i] = null
 				break
 		
@@ -201,14 +221,30 @@ func play_card(who, card):
 		#unflip the card
 		card.set_flipped(false)
 		
+		
 		#checks what effect the card has and execute it's effect
 		if card.effect.begins_with("+"):
 			enemy_charge_meter.value += int(card.effect.right(0))
 			$Charge.play()
+		elif card.effect.begins_with("-"):
+			enemy_charge_meter.value += int(card.effect.right(0))
+			$Charge.play()
+			if player_health.value > 0:
+				if not player_recently_played_card.effect == "#":
+					if not player_recently_played_card.effect.begins_with("-"):
+						screen_shake.start()
+						$Damaged.play(0.06)
+						$Loose.play()
+						player_health.value += int(card.effect.right(0))
+					elif player_recently_played_card.effect.begins_with("-"):
+						if int(player_recently_played_card.effect) > int(card.effect):
+							screen_shake.start()
+							$Damaged.play(0.06)
+							$Loose.play()
+							player_health.value += int(player_recently_played_card.effect) - int(card.effect.right(0))
 		
-
 		for i in range(len(EnemyDeckSlots)):
-			if card == EnemyDeckSlots[i]:
+			if EnemyDeckSlots[i] == card:
 				EnemyDeckSlots[i] = null
 				break
 		
@@ -226,37 +262,48 @@ func play_card(who, card):
 		enemy_deck.remove_child(card)
 		enemy_play_pos.add_child(card)
 
-func draw_card(who: String):
+func draw_card(who: String, first_move_card: bool):
 	#this function adds random possible cards to the specified deck
 	
 	#if the player is the player
 	if who == "player":
 		#create a new card scene and save it in a variable
 		var new_card = Card.instance()
+		var open_slot_num = get_open_slot(player_deck, "Place")
+		var open_slot = get_open_slot(player_deck, "Vec2")
+		
+		new_card.card_owner = "player"
 		#adds the new card to the player's deck
 		player_deck.add_child(new_card)
 		#sets the card's global position to the shuffled deck's global position
 		new_card.global_position = shuffled_deck.global_position
 		#Sets the player deck slot's number to be a taken slot
-		PlayerDeckSlots[get_open_slot(player_deck, "Place")] = new_card
+		PlayerDeckSlots[open_slot_num] = new_card
 		#move to the card to an available position on the player's deck
-		new_card.move_to_target(0.2, new_card, "global_position", new_card.global_position, get_open_slot(player_deck, "Vec2"))
+		new_card.move_to_target(0.5, new_card, "global_position", new_card.global_position, open_slot)
 		#creates the stats for the cards
-		new_card.card = pick_from_array(possible_cards_based_off_charges(player_charge_meter.value))
+		if first_move_card == false:
+			new_card.card = pick_from_array(possible_cards_based_off_charges(player_charge_meter.value))
+		else:
+			new_card.card = "+1"
 		new_card.set_stats()
 		
 	#if the player is the enemy
 	elif who == "enemy":
 		#create a new card scene and save it in a variable
 		var new_card = Card.instance()
+		var open_slot_num = get_open_slot(enemy_deck, "Place")
+		var open_slot = get_open_slot(enemy_deck, "Vec2")
+		
+		new_card.card_owner = "enemy"
 		#adds the new card to the enemys's deck
 		enemy_deck.add_child(new_card)
 		#sets the card's global position to the shuffled deck's global position
 		new_card.global_position = shuffled_deck.global_position
 		#Sets the player deck slot's number to be a taken slot
-		PlayerDeckSlots[get_open_slot(enemy_deck, "Place")] = new_card
+		PlayerDeckSlots[open_slot_num] = new_card
 		#move to the card to an available position on the enemy's deck
-		new_card.move_to_target(0.2, new_card, "global_position", new_card.global_position, get_open_slot(enemy_deck, "Vec2"))
+		new_card.move_to_target(0.5, new_card, "global_position", new_card.global_position, open_slot)
 		#creates the stats for the cards
 		new_card.card = pick_from_array(possible_cards_based_off_charges(enemy_charge_meter.value))
 		new_card.set_stats()
@@ -268,15 +315,39 @@ func possible_cards_based_off_charges(charges: int) -> Array:
 	var array: Array = []
 	
 	if charges >= 0:
-		array.append(pick_from_array(["+1", "#7"]))
+		array.append(pick_from_array(["+1", "#"]))
 	if charges >= 1:
-		array.append(pick_from_array(["-1", "#7"]))
+		array.append(pick_from_array(["-1"]))
 	if charges >= 2:
-		array.append(pick_from_array(["+2", "-1", "-2"]))
+		array.append(pick_from_array(["+2", "-2"]))
 	if charges >= 3:
-		array.append(pick_from_array(["-2", "-2", "+2", "+1"]))
+		array.append(pick_from_array(["-3", "+1", "#"]))
+	if charges >= 4:
+		array.append(pick_from_array(["-4", "+3", "-2"]))
+	if charges >= 5:
+		array.append(pick_from_array(["-5", "+4", "+2", "-3"]))
 	
 	return array
+
+func next_turn():
+	player_recently_played_card = Global.recently_clicked_card
+	enemy_recently_played_card = enemy_selected_card
+	#pauses the game, therefore activating the cursor control
+	change_state(PAUSED)
+	#play the selected cards of each card player
+	play_card("player", Global.recently_clicked_card)
+	play_card("enemy", enemy_selected_card)
+	yield(get_tree().create_timer(0.5), "timeout")
+	#add a new card to each of the card players
+	draw_card("player", false)
+	draw_card("enemy", false)
+	#set the recently clicked card to nothing/Nil
+	Global.recently_clicked_card = null
+	#wait for 1 second to set the state to playing to start the loop all over again
+	yield(get_tree().create_timer(0.5), "timeout")
+	#sets the selected enemy card to a new one based off the strat given
+	set_enemy_selected_card()
+	change_state(PLAYING)
 
 func instance_node(node: PackedScene, location: Vector2, parent: Node):
 	#basic instancing of a packed scene function
@@ -295,18 +366,5 @@ func _on_CardPlayArea_input_event(_viewport, event, _shape_idx):
 				#checks if you have a recently clicked card
 				if Global.recently_clicked_card != null:
 					if enemy_selected_card != null:
-						#pauses the game, therefore activating the cursor control
-						change_state(PAUSED)
-						#play the selected cards of each card player
-						play_card("player", Global.recently_clicked_card)
-						play_card("enemy", enemy_selected_card)
-						#add a new card to each of the card players
-						draw_card("player")
-						draw_card("enemy")
-						#set the recently clicked card to nothing/Nil
-						Global.recently_clicked_card = null
-						#wait for 1 second to set the state to playing to start the loop all over again
-						yield(get_tree().create_timer(1), "timeout")
-						#sets the selected enemy card to a new one based off the strat given
-						set_enemy_selected_card()
-						change_state(PLAYING)
+						turns += 1
+						next_turn()
