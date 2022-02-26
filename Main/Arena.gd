@@ -10,7 +10,8 @@ enum {
 }
 
 onready var screen_shake = $Camera/ScreenShake
-onready var winner_prompt = $UISpace/WinnerPrompt
+onready var winner_prompt = $UISpace/WinnerPrompt2D/Control/WinnerPrompt
+onready var winner_prompt2d = $UISpace/WinnerPrompt2D
 
 onready var shuffled_deck = $"2DSpace/ShuffledDeck"
 onready var player_charge_meter = $UISpace/Board/PlayerPlay/ChargeMeter
@@ -73,6 +74,8 @@ func _ready():
 	
 	draw_card("enemy", false)
 	draw_card("enemy", false)
+	draw_card("enemy", false)
+	draw_card("player", false)
 	draw_card("player", false)
 	draw_card("player", false)
 	
@@ -112,10 +115,8 @@ func get_open_slot(deck, return_type):
 		for i in range(len(PlayerDeckSlots)):
 			if PlayerDeckSlots[i] != null:
 				if return_type == "Vec2":
-					if i != len(PlayerDeckSlots):
-						print("player slot " + str(i) + " is taken")
-					elif i == len(PlayerDeckSlots):
-						print("all player slots are taken")
+					if i == len(PlayerDeckSlots):
+						
 						if return_type == "Vec2":
 							return Vector2(-100, -100)
 							
@@ -133,10 +134,7 @@ func get_open_slot(deck, return_type):
 		for i in range(len(PlayerDeckSlots)):
 			if EnemyDeckSlots[i] != null:
 				if return_type == "Vec2":
-					if i != len(EnemyDeckSlots):
-						print(print("enemy slot " + str(i) + " is taken"))
-					elif i == len(EnemyDeckSlots):
-						print("all enemy slots are taken")
+					if i == len(EnemyDeckSlots):
 						if return_type == "Vec2":
 							return Vector2(-100, -100)
 							
@@ -194,8 +192,15 @@ func play_card(who, card):
 							screen_shake.start()
 							$Damaged.play(0.06)
 							$Loose.play()
-							enemy_health.value += int(enemy_recently_played_card.effect) - int(card.effect.right(0))
-		
+							enemy_health.value += int(card.effect.right(0))
+		elif card.effect.begins_with("~"):
+			if not enemy_recently_played_card.effect.begins_with("##"):
+				screen_shake.start()
+				$Damaged.play(0.06)
+				$Loose.play()
+				enemy_health.value += -2
+			elif enemy_recently_played_card.effect.begins_with("##"):
+				player_health.value += -2
 		
 		for i in range(len(PlayerDeckSlots)):
 			if PlayerDeckSlots[i] == card:
@@ -241,7 +246,15 @@ func play_card(who, card):
 							screen_shake.start()
 							$Damaged.play(0.06)
 							$Loose.play()
-							player_health.value += int(player_recently_played_card.effect) - int(card.effect.right(0))
+							player_health.value += int(card.effect.right(0))
+		elif card.effect.begins_with("~"):
+			if not player_recently_played_card.effect.begins_with("##"):
+				screen_shake.start()
+				$Damaged.play(0.06)
+				$Loose.play()
+				player_health.value += -2
+			elif player_recently_played_card.effect.begins_with("##"):
+				enemy_health.value += -2
 		
 		for i in range(len(EnemyDeckSlots)):
 			if EnemyDeckSlots[i] == card:
@@ -321,11 +334,11 @@ func possible_cards_based_off_charges(charges: int) -> Array:
 	if charges >= 2:
 		array.append(pick_from_array(["+2", "-2"]))
 	if charges >= 3:
-		array.append(pick_from_array(["-3", "+1", "#"]))
+		array.append(pick_from_array(["-1", "+1"]))
 	if charges >= 4:
-		array.append(pick_from_array(["-4", "+3", "-2"]))
+		array.append(pick_from_array(["##", "+1", "-2"]))
 	if charges >= 5:
-		array.append(pick_from_array(["-5", "+4", "+2", "-3"]))
+		array.append(pick_from_array(["~", "+2", "+1", "-2"]))
 	
 	return array
 
@@ -347,7 +360,32 @@ func next_turn():
 	yield(get_tree().create_timer(0.5), "timeout")
 	#sets the selected enemy card to a new one based off the strat given
 	set_enemy_selected_card()
-	change_state(PLAYING)
+	
+	if player_health.value == 0:
+		end_game("enemy")
+		$Defeat.play()
+		$Damaged.play(0.06)
+	elif enemy_health.value == 0:
+		end_game("player")
+		$Win.play()
+	elif player_health.value == 0 and enemy_health.value == 0:
+		end_game("draw")
+		$Defeat.play()
+		$Damaged.play(0.06)
+	else:
+		change_state(PLAYING)
+
+func end_game(winner: String):
+	winner_prompt.show()
+	winner_prompt2d.get_child(1).start()
+	screen_shake.start()
+	change_state(FINISHED)
+	if winner == "player":
+		winner_prompt.get_child(0).text = "win"
+	elif winner == "enemy":
+		winner_prompt.get_child(0).text = "defeat"
+	elif winner == "draw":
+		winner_prompt.get_child(0).text = "draw"
 
 func instance_node(node: PackedScene, location: Vector2, parent: Node):
 	#basic instancing of a packed scene function
