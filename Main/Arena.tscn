@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://PixelFont.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://UI/Bar.png" type="Texture" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://SFX/ChargedSFX.wav" type="AudioStream" id=7]
 [ext_resource path="res://SFX/DamagedSFX.wav" type="AudioStream" id=8]
 [ext_resource path="res://SFX/Damaged2SFX.wav" type="AudioStream" id=9]
+[ext_resource path="res://SFX/Defeat.wav" type="AudioStream" id=10]
+[ext_resource path="res://SFX/Win.wav" type="AudioStream" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.2, 0.180392, 0.219608, 1 )
@@ -226,16 +228,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WinnerPrompt" type="ColorRect" parent="UISpace"]
+[node name="WinnerPrompt2D" type="Sprite" parent="UISpace"]
+position = Vector2( 0, 72 )
+z_index = 4096
+
+[node name="Control" type="Control" parent="UISpace/WinnerPrompt2D"]
+margin_right = 256.0
+margin_bottom = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WinnerPrompt" type="ColorRect" parent="UISpace/WinnerPrompt2D/Control"]
 visible = false
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
+margin_left = -16.0
 margin_top = -8.0
+margin_right = 16.0
 margin_bottom = 8.0
 color = Color( 0, 0, 0, 0.796078 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Name" type="Label" parent="UISpace/WinnerPrompt"]
+[node name="Name" type="Label" parent="UISpace/WinnerPrompt2D/Control/WinnerPrompt"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -249,6 +267,8 @@ text = "-----"
 align = 1
 valign = 1
 uppercase = true
+
+[node name="ScreenShake" parent="UISpace/WinnerPrompt2D" instance=ExtResource( 5 )]
 
 [node name="2DSpace" type="Node2D" parent="."]
 
@@ -304,6 +324,16 @@ volume_db = -10.0
 [node name="Loose" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 volume_db = -20.0
+pitch_scale = 0.5
+
+[node name="Defeat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -10.0
+pitch_scale = 0.5
+
+[node name="Win" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -5.0
 pitch_scale = 0.5
 
 [node name="Camera" type="Camera2D" parent="."]

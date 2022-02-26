@@ -23,8 +23,6 @@ var card_owner = null
 func _ready() -> void:
 	randomize()
 	
-	print("Card Spawned")
-
 	if model == true:
 		card_effect.text = "^"
 		effect = card
@@ -59,12 +57,17 @@ func set_stats():
 	
 	if card.begins_with("#"):
 		set_img("res://Card/Block.png")
+	elif card.begins_with("##"):
+		set_img("res://Card/SuperBlock.png")
+	elif card.begins_with("~"):
+		set_img("res://Card/Absorb.png")
 	elif card.begins_with("+"):
 		set_img("res://Card/Charge.png")
 	elif card == "-1":
 		set_img("res://Card/Abra.png")
-	elif card == "-2":
+	elif card.begins_with("-") and card != "-1":
 		set_img("res://Card/DoubleAbra.png")
+	
 
 func set_img(path: String):
 	image.texture = load(path)
