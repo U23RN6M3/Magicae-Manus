@@ -90,8 +90,8 @@ script = ExtResource( 2 )
 [node name="Control" type="Control" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -104.0
-margin_bottom = 104.0
+margin_left = -256.0
+margin_bottom = 64.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -99,17 +99,16 @@ __meta__ = {
 [node name="Dialog_Box" type="ColorRect" parent="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.029
-margin_left = -15.0
-margin_bottom = -0.0160065
-color = Color( 0, 0, 0, 0.913725 )
+margin_bottom = 0.143997
+color = Color( 0, 0, 0, 0.772549 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Text" type="RichTextLabel" parent="Control/Dialog_Box"]
-margin_top = 3.0
-margin_right = 118.0
-margin_bottom = 107.0
+margin_left = 8.0
+margin_right = 256.0
+margin_bottom = 66.0
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 bbcode_text = "text"
@@ -120,10 +119,10 @@ __meta__ = {
 }
 
 [node name="Indicator" type="ColorRect" parent="Control/Dialog_Box"]
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 118.0
-margin_bottom = 3.0
+margin_left = 2.0
+margin_top = 5.0
+margin_right = 6.0
+margin_bottom = 9.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
