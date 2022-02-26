@@ -35,7 +35,7 @@ func _ready() -> void:
 				i.hide()
 				
 		else:
-			color_tween.interpolate_property(self, "modulate", Color("#00b7ff"), Color("#ffffff"), 1.5, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+			color_tween.interpolate_property(self, "modulate", Color("#6cf5ff"), Color("#ffffff"), 1.5, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 			color_tween.start()
 			
 			set_stats()
@@ -47,7 +47,7 @@ func _ready() -> void:
 
 func _physics_process(_delta):
 	if Global.recently_clicked_card == self:
-		image.modulate = Color("#00b7ff")
+		image.modulate = Color("#6cf5ff")
 	else:
 		image.modulate = Color("ffffff")
 
