@@ -1,11 +1,14 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://PixelFont.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://UI/Bar.png" type="Texture" id=2]
 [ext_resource path="res://Main/Arena.gd" type="Script" id=3]
 [ext_resource path="res://Card/CardBack.png" type="Texture" id=4]
+[ext_resource path="res://Effects/ScreenShake.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Dialogue/Dialogue.tscn" type="PackedScene" id=6]
 [ext_resource path="res://SFX/ChargedSFX.wav" type="AudioStream" id=7]
+[ext_resource path="res://SFX/DamagedSFX.wav" type="AudioStream" id=8]
+[ext_resource path="res://SFX/Damaged2SFX.wav" type="AudioStream" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.2, 0.180392, 0.219608, 1 )
@@ -51,6 +54,9 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 1 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 16, 24 )
@@ -116,7 +122,8 @@ margin_right = 40.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = -90.0
-value = 100.0
+max_value = 5.0
+value = 5.0
 rounded = true
 texture_under = ExtResource( 2 )
 texture_progress = ExtResource( 2 )
@@ -138,6 +145,7 @@ rect_rotation = -90.0
 custom_styles/fg = SubResource( 3 )
 custom_styles/bg = SubResource( 4 )
 max_value = 20.0
+value = 1.0
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -175,7 +183,8 @@ margin_right = 24.0
 margin_bottom = 56.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 90.0
-value = 100.0
+max_value = 5.0
+value = 5.0
 rounded = true
 texture_under = ExtResource( 2 )
 texture_progress = ExtResource( 2 )
@@ -196,16 +205,52 @@ rect_rotation = 90.0
 custom_styles/fg = SubResource( 3 )
 custom_styles/bg = SubResource( 4 )
 max_value = 20.0
+value = 1.0
 percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer" type="ParallaxBackground" parent="UISpace"]
+
+[node name="BG" type="ColorRect" parent="UISpace/CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -16.0
+margin_top = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WinnerPrompt" type="ColorRect" parent="UISpace"]
+visible = false
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -8.0
+margin_bottom = 8.0
+color = Color( 0, 0, 0, 0.796078 )
+
+[node name="Name" type="Label" parent="UISpace/WinnerPrompt"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -7.0
+margin_right = 20.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 8 )
+text = "-----"
+align = 1
+valign = 1
+uppercase = true
 
 [node name="2DSpace" type="Node2D" parent="."]
-
-[node name="PlayerDeck" type="Node2D" parent="2DSpace"]
-position = Vector2( 172, 145 )
-
-[node name="EnemyDeck" type="Node2D" parent="2DSpace"]
-position = Vector2( 104, 16 )
-rotation = 3.14159
 
 [node name="ShuffledDeck" type="Node2D" parent="2DSpace"]
 position = Vector2( 168, 64 )
@@ -227,6 +272,13 @@ texture = ExtResource( 4 )
 [node name="Card4" type="Sprite" parent="2DSpace/ShuffledDeck"]
 texture = ExtResource( 4 )
 
+[node name="PlayerDeck" type="Node2D" parent="2DSpace"]
+position = Vector2( 172, 145 )
+
+[node name="EnemyDeck" type="Node2D" parent="2DSpace"]
+position = Vector2( 104, 16 )
+rotation = 3.14159
+
 [node name="CardPlayArea" type="Area2D" parent="2DSpace"]
 position = Vector2( 88, 104 )
 
@@ -244,5 +296,21 @@ __meta__ = {
 
 [node name="Charge" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+
+[node name="Damaged" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -10.0
+
+[node name="Loose" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -20.0
+pitch_scale = 0.5
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+smoothing_enabled = true
+
+[node name="ScreenShake" parent="Camera" instance=ExtResource( 5 )]
 
 [connection signal="input_event" from="2DSpace/CardPlayArea" to="." method="_on_CardPlayArea_input_event"]
