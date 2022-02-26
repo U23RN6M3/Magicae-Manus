@@ -56,7 +56,7 @@ func nextPhrase() -> void:
 	
 	while Text.visible_characters < len(Text.text):
 		
-		Text.bbcode_text = "[center]" + dialog[phraseNum]["Text"] + "[/center]"
+		Text.bbcode_text = dialog[phraseNum]["Text"]
 		
 		Text.visible_characters += 1
 		
