@@ -69,8 +69,13 @@ var player_recently_played_card = null
 var enemy_recently_played_card = null
 
 func _ready():
+	$BattleMusic.stream = Global.battle_music_stream
+	$BattleMusic.play()
+	
 	$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", Vector2(-64, 0), Vector2(-64, -128), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
 	$UISpace/BackGround/GreenMaskTween.start()
+	
+	$Dialogue.audio.stream = load("res://SFX/LionVoice.mp3")
 	
 	draw_card("player", true)
 	draw_card("enemy", true)
@@ -207,6 +212,8 @@ func play_card(who, card):
 				player_charge_meter.value += enemy_charge_meter.value
 				enemy_charge_meter.value = 0
 			elif enemy_recently_played_card.effect.begins_with("##"):
+				$Damaged.play(0.06)
+				$Loose.play()
 				player_health.value += -3
 		
 		for i in range(len(PlayerDeckSlots)):
@@ -263,6 +270,8 @@ func play_card(who, card):
 				enemy_charge_meter.value += player_charge_meter.value
 				player_charge_meter.value = 0
 			elif player_recently_played_card.effect.begins_with("##"):
+				$Damaged.play(0.06)
+				$Loose.play()
 				enemy_health.value += -3
 		
 		for i in range(len(EnemyDeckSlots)):
@@ -396,6 +405,11 @@ func end_game(winner: String):
 		winner_prompt.get_child(0).text = "defeat"
 	elif winner == "draw":
 		winner_prompt.get_child(0).text = "draw"
+	
+	yield(get_tree().create_timer(5), "timeout")
+	$UISpace/FadeTween.interpolate_property($UISpace/Fade, "color", Color("#00000000"), Color("#000000"), 3.5, Tween.TRANS_QUART, Tween.EASE_OUT)
+	$UISpace/FadeTween.start()
+	
 
 func instance_node(node: PackedScene, location: Vector2, parent: Node):
 	#basic instancing of a packed scene function

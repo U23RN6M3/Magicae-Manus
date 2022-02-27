@@ -8,7 +8,7 @@ var randomization = 0
 
 export(float) var textSpeed = 0.02
 
-var audioSFX = null
+var audioSFX = load("res://Dialogue/Voice2.wav")
 var pitch: float = 1
 
 onready var timer = $Control/Dialog_Box/Timer
@@ -34,6 +34,7 @@ func _physics_process(_delta):
 
 func _ready():
 	audio.pitch_scale = pitch
+	audio.stream = audioSFX
 	
 	timer.wait_time = textSpeed
 	

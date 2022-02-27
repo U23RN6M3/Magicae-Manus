@@ -54,6 +54,9 @@ margin_right = 56.0
 margin_bottom = 56.0
 texture = ExtResource( 2 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="Control/Panel/Logo"]
 margin_left = 56.0

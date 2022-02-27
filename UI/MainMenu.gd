@@ -21,7 +21,7 @@ func _on_Area2D_input_event(_viewport, event, _shape_idx):
 				Global.recently_clicked_card.click_effect()
 				yield(get_tree().create_timer(2), "timeout")
 				if element == "campaign":
-					pass
+					get_tree().change_scene("res://Main/Arena.tscn")
 				elif element == "extras":
 					pass
 				elif element == "options":

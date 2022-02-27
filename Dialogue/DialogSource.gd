@@ -1,7 +1,8 @@
 extends Node
 
 onready var test = [
-	{"Text":"plus(+) cards give you charges, minus(-) cards attack, and sharp(#) cards defend. The more charges you have, the better the cards you get.", "Pitch":1},
+	{"Text":"I have not played in a long time.", "Pitch":1},
+	{"Text":"Forgive me for my lack of knowledge on magic.", "Pitch":1},
 ]
 
 onready var tutorial1 = [

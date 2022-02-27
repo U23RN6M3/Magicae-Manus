@@ -22,6 +22,9 @@ var recently_clicked_card = null
 
 var scene_to_change_to: String = "res://"
 
+var battle_music_stream = load("res://The Game of Time.mp3")
+var battle_scene_to_change_to = load("res://Developer_Mode/Error.tscn")
+
 onready var menu_music = $MenuMusic
 
 func _ready():
