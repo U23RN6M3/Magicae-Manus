@@ -11,6 +11,18 @@ onready var npc_default = [
 	{"Text":"Have a great time here friend.", "Pitch":1.5},
 ]
 
+onready var fred_dungeon_1 = [
+	{"Text":"Ah,", "Pitch":1},
+	{"Text":"you've played well.", "Pitch":1},
+	{"Text":"Although I am suprised that the cards finally surged when we've laid low.", "Pitch":1},
+	{"Text":"Do you think it's part of...?", "Pitch":1},
+	{"Text":"Yeah probably...", "Pitch":1},
+	{"Text":"Kane just had to, right?", "Pitch":1},
+	{"Text":"Otherwise we'd still be fighting with those damned rings", "Pitch":1},
+	{"Text":"these guys are easier to hold as pieces of paper than holding and throwing giant golden crap right?", "Pitch":1},
+	{"Text":"Er...", "Pitch":1},
+]
+
 onready var tutorial1 = [
 	{"Text":"Great, you're here. I'l show you around.", "Pitch":1},
 	{"Text":"Every time you start a battle, you always draw a charge card.", "Pitch":1},
@@ -34,4 +46,4 @@ onready var tutorial1 = [
 	{"Text":"Charge!", "Pitch":1},
 ]
 
-onready var npc_dialogue_list = [npc_default]
+onready var npc_dialogue_list = [npc_default, fred_dungeon_1]
