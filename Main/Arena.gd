@@ -410,6 +410,7 @@ func end_game(winner: String):
 	$UISpace/FadeTween.interpolate_property($CanvasLayer/Fade, "color", Color("#00000000"), Color("#000000"), 3.5, Tween.TRANS_QUART, Tween.EASE_OUT)
 	$UISpace/FadeTween.start()
 	yield(get_tree().create_timer(3.6), "timeout")
+# warning-ignore:return_value_discarded
 	get_tree().change_scene(Global.battle_scene_to_change_to)
 
 func instance_node(node: PackedScene, location: Vector2, parent: Node):
