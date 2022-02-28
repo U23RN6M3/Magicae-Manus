@@ -61,7 +61,7 @@ onready var EnemyDeckSlots = [
 var state = TALKING
 var turns: int = 0
 
-var shake_x = -128
+var shake_x = -576
 
 var enemy_selected_card = null
 
@@ -72,7 +72,7 @@ func _ready():
 	$BattleMusic.stream = Global.battle_music_stream
 	$BattleMusic.play()
 	
-	$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", Vector2(-64, 0), Vector2(-64, -128), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+	$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", Vector2(-64, 0), Vector2(-64, -128), 40, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
 	$UISpace/BackGround/GreenMaskTween.start()
 	
 	$Dialogue.audio.stream = load("res://SFX/LionVoice.mp3")
@@ -434,11 +434,11 @@ func _on_CardPlayArea_input_event(_viewport, event, _shape_idx):
 
 
 func _on_GreenMaskTween_tween_all_completed():
-	if shake_x == -128:
-		$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", $UISpace/BackGround/GreenMask.rect_position, Vector2(0, $UISpace/BackGround/GreenMask.rect_position.y), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+	if shake_x == -576:
+		$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", $UISpace/BackGround/GreenMask.rect_position, Vector2(0, $UISpace/BackGround/GreenMask.rect_position.y), 40, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
 		$UISpace/BackGround/GreenMaskTween.start()
 		shake_x = 0
 	elif shake_x == 0:
-		$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", $UISpace/BackGround/GreenMask.rect_position, Vector2(-128, $UISpace/BackGround/GreenMask.rect_position.y), 10, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+		$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", $UISpace/BackGround/GreenMask.rect_position, Vector2(-576, $UISpace/BackGround/GreenMask.rect_position.y), 40, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
 		$UISpace/BackGround/GreenMaskTween.start()
-		shake_x = -128
+		shake_x = -576
