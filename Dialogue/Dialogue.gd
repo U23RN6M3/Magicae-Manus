@@ -25,7 +25,7 @@ var finished = false
 func _physics_process(_delta):
 	indicator.visible = finished
 	
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("dialogue"):
 		if finished:
 			nextPhrase()
 		elif !finished and skippable:
@@ -33,13 +33,13 @@ func _physics_process(_delta):
 			finished = true
 
 func _ready():
+	yield(get_tree(), "idle_frame")
 	audio.pitch_scale = pitch
 	audio.stream = audioSFX
 	
 	timer.wait_time = textSpeed
 	
 	indicatorAnimationPlayer.play("Blink")
-	dialog = DialogSource.test
 	nextPhrase()
 
 func nextPhrase() -> void:

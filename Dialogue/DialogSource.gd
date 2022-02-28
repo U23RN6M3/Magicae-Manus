@@ -5,6 +5,12 @@ onready var test = [
 	{"Text":"Forgive me for my lack of knowledge on magic.", "Pitch":1},
 ]
 
+onready var npc_default = [
+	{"Text":"Hello Lion", "Pitch":1.5},
+	{"Text":"I haven't seen a lion here in a while", "Pitch":1.5},
+	{"Text":"Have a great time here friend.", "Pitch":1.5},
+]
+
 onready var tutorial1 = [
 	{"Text":"Great, you're here. I'l show you around.", "Pitch":1},
 	{"Text":"Every time you start a battle, you always draw a charge card.", "Pitch":1},
@@ -27,3 +33,5 @@ onready var tutorial1 = [
 	{"Text":"Hopefully I've explained enough.", "Pitch":1},
 	{"Text":"Charge!", "Pitch":1},
 ]
+
+onready var npc_dialogue_list = [npc_default]

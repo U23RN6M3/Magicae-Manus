@@ -77,6 +77,7 @@ func _ready():
 	
 	$Dialogue.audio.stream = load("res://SFX/LionVoice.mp3")
 	
+	
 	draw_card("player", true)
 	draw_card("enemy", true)
 	

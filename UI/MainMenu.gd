@@ -7,7 +7,7 @@ func _ready() -> void:
 	fade_effect_tween.interpolate_property($Panel/FadeEffect, "color", Color("#000000"), Color("#00000000"), 0.5, Tween.TRANS_BACK, Tween.EASE_OUT)
 	fade_effect_tween.start()
 	Global.menu_music.play()
-
+	Global.battle_scene_to_change_to = "res://Developer_Mode/Test.tscn"
 
 func _on_Area2D_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
@@ -21,6 +21,7 @@ func _on_Area2D_input_event(_viewport, event, _shape_idx):
 				Global.recently_clicked_card.click_effect()
 				yield(get_tree().create_timer(2), "timeout")
 				if element == "campaign":
+# warning-ignore:return_value_discarded
 					get_tree().change_scene("res://Main/Arena.tscn")
 				elif element == "extras":
 					pass
@@ -31,4 +32,5 @@ func _on_Area2D_input_event(_viewport, event, _shape_idx):
 				elif element == "quit":
 					get_tree().quit()
 				Global.recently_clicked_card = null
+				Global.menu_music.stop()
 				fade_effect_tween.start()
