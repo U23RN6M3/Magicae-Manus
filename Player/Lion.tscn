@@ -223,13 +223,12 @@ collision_layer = 3
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 1 )
 rotation = 1.5708
 shape = SubResource( 11 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-offset = Vector2( 0, -10 )
+offset = Vector2( 0, -12 )
 hframes = 7
 vframes = 3
 

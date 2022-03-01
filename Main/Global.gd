@@ -9,8 +9,8 @@ const default_data = {
 	},
 	
 	"game" : {
-		"world":1,
-		"level":1
+		"fort":"bjrans",
+		"save_point":"starting_point",
 	}
 	
 	}
@@ -29,11 +29,6 @@ onready var menu_music = $MenuMusic
 
 func _ready():
 	load_data()
-
-func _process(_delta):
-	#if recently_clicked_card != null:
-		#recently_clicked_card.image.modulate = Color("#f7ff00")
-	pass
 
 func save_data():
 	
@@ -58,6 +53,10 @@ func load_data():
 			file.close()
 			print(player_data)
 			data = player_data
+	else:
+		reset_data()
+		save_data()
+		load_data()
 
 func reset_data():
 	
