@@ -2,15 +2,17 @@ extends KinematicBody2D
 
 enum {
 	IDLE,
-	PAUSED
+	PAUSED,
+	HURT
 }
 
 onready var animationPlayer = $AnimationPlayer
+onready var color_tween = $ColorTween
 
-var speed = 45  # speed in pixels/sec
+var speed = 45
 var velocity = Vector2.ZERO
 
-var facing = "Down"
+export(String, "Down", "Up", "Right", "Left") var facing = "Down"
 
 var state = IDLE
 
@@ -38,10 +40,13 @@ func _physics_process(_delta):
 					animationPlayer.play("WalkUp")
 				
 			else:
-				animationPlayer.play("Stand" + facing)
-			
+				if not facing.empty():
+					animationPlayer.play("Stand" + facing)
 			
 		PAUSED:
+			velocity = Vector2.ZERO
+			animationPlayer.play("Stand" + facing)
+		HURT:
 			velocity = Vector2.ZERO
 			animationPlayer.play("Stand" + facing)
 	
@@ -49,3 +54,10 @@ func _physics_process(_delta):
 
 func change_state(state_to):
 	state = state_to
+
+func damaged(damage: int = 10):
+	change_state(HURT)
+	Global.data["game"]["health"] -= damage
+	color_tween.interpolate_property(self, "modulate", Color("#ff0000"), Color("#ffffff"), 1, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+	yield(get_tree().create_timer(1), "timeout")
+	change_state(IDLE)

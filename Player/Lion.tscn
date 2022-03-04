@@ -242,3 +242,5 @@ anims/WalkDown = SubResource( 7 )
 anims/WalkLeft = SubResource( 10 )
 anims/WalkRight = SubResource( 9 )
 anims/WalkUp = SubResource( 8 )
+
+[node name="ColorTween" type="Tween" parent="."]

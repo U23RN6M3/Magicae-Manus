@@ -12,15 +12,11 @@ onready var npc_default = [
 ]
 
 onready var fred_dungeon_1 = [
-	{"Text":"Ah,", "Pitch":1},
-	{"Text":"you've played well.", "Pitch":1},
-	{"Text":"Although I am suprised that the cards finally surged when we've laid low.", "Pitch":1},
-	{"Text":"Do you think it's part of...?", "Pitch":1},
-	{"Text":"Yeah probably...", "Pitch":1},
-	{"Text":"Kane just had to, right?", "Pitch":1},
-	{"Text":"Otherwise we'd still be fighting with those damned rings", "Pitch":1},
-	{"Text":"these guys are easier to hold as pieces of paper than holding and throwing giant golden crap right?", "Pitch":1},
-	{"Text":"Er...", "Pitch":1},
+	{"Text":"You've played well.", "Pitch":1},
+	{"Text":"This, would be enough.", "Pitch":1},
+	{"Text":"We should prepare for tomorrow.", "Pitch":1},
+	{"Text":"Get your strats straight, and improve your reaction time.", "Pitch":1},
+	{"Text":"For Fort Bjrans.", "Pitch":1},
 ]
 
 onready var tutorial1 = [

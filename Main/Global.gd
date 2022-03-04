@@ -11,6 +11,7 @@ const default_data = {
 	"game" : {
 		"fort":"bjrans",
 		"save_point":"starting_point",
+		"health":100,
 	}
 	
 	}
