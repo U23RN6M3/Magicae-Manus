@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/WriggedAnimation.mp3-159b81a7896dfeac074df437330cbcff.mp3str"
+
+[deps]
+
+source_file="res://WriggedAnimation.mp3"
+dest_files=[ "res://.import/WriggedAnimation.mp3-159b81a7896dfeac074df437330cbcff.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

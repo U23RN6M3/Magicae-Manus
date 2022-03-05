@@ -5,6 +5,19 @@ onready var test = [
 	{"Text":"Forgive me for my lack of knowledge on magic.", "Pitch":1},
 ]
 
+onready var wrig = [
+	{"Text":"What?", "Pitch":0.5},
+	{"Text":"How didya get here???", "Pitch":0.5},
+	{"Text":"Oh well", "Pitch":0.5},
+	{"Text":"Since ye're here now", "Pitch":0.5},
+	{"Text":"Might as well do somethin' about it!", "Pitch":0.5},
+	{"Text":"Let's battle kid!", "Pitch":0.5}
+]
+
+onready var wrigfight = [
+	{"Text":"Let's just get this overwith, wrig.", "Pitch":1}
+]
+
 onready var npc_default = [
 	{"Text":"Hello Lion", "Pitch":1.5},
 	{"Text":"I haven't seen a lion here in a while", "Pitch":1.5},
@@ -42,4 +55,4 @@ onready var tutorial1 = [
 	{"Text":"Charge!", "Pitch":1},
 ]
 
-onready var npc_dialogue_list = [npc_default, fred_dungeon_1]
+onready var npc_dialogue_list = [npc_default, fred_dungeon_1, wrig, wrigfight]

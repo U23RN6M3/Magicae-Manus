@@ -1,12 +1,13 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Developer_Mode/Test.gd" type="Script" id=1]
 [ext_resource path="res://Player/Lion.tscn" type="PackedScene" id=2]
 [ext_resource path="res://NPCs/StandardNPC.tscn" type="PackedScene" id=3]
-[ext_resource path="res://NPCs/Fredrick.png" type="Texture" id=4]
+[ext_resource path="res://NPCs/Wrig.png" type="Texture" id=4]
 [ext_resource path="res://Table.png" type="Texture" id=5]
 [ext_resource path="res://Tilemaps/DungeonTileMap.png" type="Texture" id=6]
 [ext_resource path="res://Pillar.png" type="Texture" id=7]
+[ext_resource path="res://Effects/ScreenShake.tscn" type="PackedScene" id=8]
 
 [sub_resource type="TileSet" id=1]
 0/name = "DungeonTileMap.png 0"
@@ -38,6 +39,62 @@
 1/shapes = [  ]
 1/z_index = 0
 
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 20.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Wrig"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 20.0, -20.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 1 ]
+}
+
 [node name="Test" type="Node2D" groups=["MainInstance"]]
 script = ExtResource( 1 )
 
@@ -52,14 +109,6 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 
 [node name="Lion" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 73, 97 )
-
-[node name="Fred" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 56, 104 )
-dialog_num_code = 1
-
-[node name="Sprite" parent="YSort/Fred" index="0"]
-texture = ExtResource( 4 )
-hframes = 4
 
 [node name="StandardNPC2" parent="YSort" instance=ExtResource( 3 )]
 position = Vector2( 216, 112 )
@@ -94,5 +143,26 @@ position = Vector2( 22, 147 )
 texture = ExtResource( 7 )
 offset = Vector2( 0, -32 )
 
-[editable path="YSort/Fred"]
-[editable path="YSort/Fred/PlayerDetector"]
+[node name="Wrig" parent="YSort" instance=ExtResource( 3 )]
+position = Vector2( 153, 77 )
+dialog_num_code = 2
+
+[node name="Sprite" parent="YSort/Wrig" index="0"]
+rotation = 0.349066
+texture = ExtResource( 4 )
+hframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="YSort/Wrig"]
+autoplay = "Wrig"
+anims/RESET = SubResource( 3 )
+anims/Wrig = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="ScreenShake" parent="Camera2D" instance=ExtResource( 8 )]
+
+[connection signal="dialog_done" from="YSort/Wrig" to="." method="_on_Wrig_dialog_done"]
+
+[editable path="YSort/Wrig"]
+[editable path="YSort/Wrig/PlayerDetector"]
