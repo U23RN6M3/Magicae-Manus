@@ -17,4 +17,5 @@ func _on_Wrig_dialog_done():
 	Global.battle_music_stream = load("res://SFX/Abra.mp3")
 	Global.battle_dialog = DialogSource.npc_dialogue_list[3]
 	Global.battle_scene_to_change_to = "res://Developer_Mode/Test.tscn"
+# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://Main/Arena.tscn")

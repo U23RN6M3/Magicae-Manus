@@ -1,5 +1,6 @@
 extends StaticBody2D
 
+# warning-ignore:unused_signal
 signal dialog_done
 
 const Dialogue = preload("res://Dialogue/Dialogue.tscn")
@@ -8,6 +9,10 @@ onready var player_detector = $PlayerDetector
 
 export var enable_dialog = true
 export var dialog_num_code = 0
+export var after_dialog: Dictionary = {
+	"enabled":false,
+	"num_code":1
+}
 
 func _physics_process(_delta):
 	if player_detector.player != null:
@@ -20,11 +25,11 @@ func _physics_process(_delta):
 				instance.connect("dialogDone", self, "change_player_state", [player_detector.player.IDLE])
 				instance.connect("dialogDone", self, "set_deferred", ["enable_dialog", true])
 				instance.connect("dialogDone", self, "emit_signal", ["dialog_done"])
+				if after_dialog["enabled"] == true:
+					dialog_num_code = after_dialog["num_code"]
 				get_tree().get_nodes_in_group("MainInstance")[0].add_child(instance)
 
 func change_player_state(state):
 	if player_detector.player != null:
 		player_detector.player.change_state(state)
 		
-
-# fnaf reference omg

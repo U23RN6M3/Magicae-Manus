@@ -21,15 +21,26 @@ onready var wrigfight = [
 onready var npc_default = [
 	{"Text":"Hello Lion", "Pitch":1.5},
 	{"Text":"I haven't seen a lion here in a while", "Pitch":1.5},
-	{"Text":"Have a great time here friend.", "Pitch":1.5},
+	{"Text":"[shake rate=20 level=1]Have a... great time[/shake]", "Pitch":1.5},
+	{"Text":"[shake rate=20 level=2]Lion...[/shake]", "Pitch":1.5},
+	{"Text":"[shake rate=30 level=3]...[/shake]", "Pitch":1.5},
 ]
 
 onready var fred_dungeon_1 = [
 	{"Text":"You've played well.", "Pitch":1},
 	{"Text":"This, would be enough.", "Pitch":1},
 	{"Text":"We should prepare for tomorrow.", "Pitch":1},
-	{"Text":"Get your strats straight, and improve your reaction time.", "Pitch":1},
-	{"Text":"For Fort Bjrans.", "Pitch":1},
+	{"Text":"Also,", "Pitch":1},
+	{"Text":"Brother Yamiel is asking permission to, restore the hybrid card project.", "Pitch":1},
+	{"Text":"I told him to pospone the project as of, tomorrow's event.", "Pitch":1},
+	{"Text":"With enough practice, we can get you to master this game.", "Pitch":1},
+	{"Text":"and Faction Father will not be disappointed.", "Pitch":1},
+	{"Text":"I[shake rate=30 level=3]...[/shake] Hope.", "Pitch":1},
+]
+
+onready var fred_dungeon_2 = [
+	{"Text":"Perhaps, check on the lads who are in charge of the supplies", "Pitch":1},
+	{"Text":"we need to be prepared. I heard Faction Igor have, noticed our defenses are down.", "Pitch":1},
 ]
 
 onready var tutorial1 = [
@@ -55,4 +66,4 @@ onready var tutorial1 = [
 	{"Text":"Charge!", "Pitch":1},
 ]
 
-onready var npc_dialogue_list = [npc_default, fred_dungeon_1, wrig, wrigfight]
+onready var npc_dialogue_list = [npc_default, fred_dungeon_1, wrig, wrigfight, fred_dungeon_2]

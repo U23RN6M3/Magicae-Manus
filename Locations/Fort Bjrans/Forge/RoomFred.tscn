@@ -29,19 +29,23 @@ position = Vector2( 128, 72 )
 [node name="Fred" parent="Node2D/YSort" instance=ExtResource( 5 )]
 position = Vector2( 111, 68 )
 dialog_num_code = 1
+after_dialog = {
+"enabled": true,
+"num_code": 4
+}
 
 [node name="Sprite" parent="Node2D/YSort/Fred" index="0"]
 texture = ExtResource( 6 )
 hframes = 4
 
 [node name="StaticDefendToken" parent="Node2D/YSort" instance=ExtResource( 7 )]
-position = Vector2( 56, 40 )
+position = Vector2( 80, 40 )
 
 [node name="StaticDefendToken2" parent="Node2D/YSort" instance=ExtResource( 7 )]
 position = Vector2( 128, 40 )
 
 [node name="StaticDefendToken3" parent="Node2D/YSort" instance=ExtResource( 7 )]
-position = Vector2( 200, 40 )
+position = Vector2( 176, 40 )
 
 [node name="SceneChanger" parent="Node2D" instance=ExtResource( 8 )]
 position = Vector2( 128, 168 )
