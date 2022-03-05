@@ -72,11 +72,11 @@ func _ready():
 	$BattleMusic.stream = Global.battle_music_stream
 	$BattleMusic.play()
 	
-	$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", Vector2(-64, 0), Vector2(-64, -128), 40, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+	$UISpace/BackGround/GreenMaskTween.interpolate_property($UISpace/BackGround/GreenMask, "rect_position", Vector2(-64, 0), Vector2(-64, -128), 5, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
 	$UISpace/BackGround/GreenMaskTween.start()
 	
 	$Dialogue.audioSFX = load("res://SFX/LionVoice.mp3")
-	$Dialogue.dialog = DialogSource.test
+	$Dialogue.dialog = Global.battle_dialog
 	
 	draw_card("player", true)
 	draw_card("enemy", true)

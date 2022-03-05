@@ -5,7 +5,7 @@
 [ext_resource path="res://NPCs/StandardNPC.tscn" type="PackedScene" id=3]
 [ext_resource path="res://NPCs/Fredrick.png" type="Texture" id=4]
 [ext_resource path="res://Table.png" type="Texture" id=5]
-[ext_resource path="res://DungeonTileMap.png" type="Texture" id=6]
+[ext_resource path="res://Tilemaps/DungeonTileMap.png" type="Texture" id=6]
 [ext_resource path="res://Pillar.png" type="Texture" id=7]
 
 [sub_resource type="TileSet" id=1]

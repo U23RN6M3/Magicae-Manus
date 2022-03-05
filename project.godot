@@ -29,8 +29,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Global="*res://Main/Global.tscn"
 DialogSource="*res://Dialogue/DialogSource.tscn"
+Global="*res://Main/Global.tscn"
 
 [display]
 
