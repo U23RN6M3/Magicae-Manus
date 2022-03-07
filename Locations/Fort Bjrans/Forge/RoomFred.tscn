@@ -49,6 +49,7 @@ position = Vector2( 176, 40 )
 
 [node name="SceneChanger" parent="Node2D" instance=ExtResource( 8 )]
 position = Vector2( 128, 168 )
+scene_to_change_to = "res://Locations/Fort Bjrans/Forge/BjransFloor2.tscn"
 
 [editable path="Node2D/YSort/Fred"]
 [editable path="Node2D/YSort/Fred/PlayerDetector"]
